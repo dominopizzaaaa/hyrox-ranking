@@ -118,7 +118,6 @@ function computeLeaderBoard() {
 
   return [...bestByAthlete.values()]
     .sort((a, b) => a.seconds - b.seconds)
-    .slice(0, 10)
     .map((record, idx) => ({
       rank: idx + 1,
       ...record,
@@ -132,7 +131,7 @@ function renderLeaderBoard() {
   const rows = computeLeaderBoard();
   if (elements.title) {
     elements.title.textContent = rows.length
-      ? `Top ${rows.length} from the active filter set`
+      ? `All ${rows.length} results from the active filter set`
       : 'No results for the active filter set';
   }
   if (!elements.body) return;
