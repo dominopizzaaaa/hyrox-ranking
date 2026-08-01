@@ -8,84 +8,41 @@
   </head>
   <body>
     <header class="hero">
-      <div>
-        <p class="eyebrow">Public results archive</p>
-        <h1>HYROX Global Ranking</h1>
-        <p class="subcopy">
-          Explore all-time public race results, filter by race, gender, age group,
-          nationality, and division, and compare solo Open vs Pro performances.
-        </p>
+      <div class="hero-inner">
+        <div>
+          <p class="eyebrow">Public results archive</p>
+          <h1>HYROX Global Ranking</h1>
+          <p class="subcopy">
+            Explore all-time public race results, filter by race, gender, age group,
+            nationality, and division, and compare solo Open vs Pro performances.
+          </p>
+        </div>
+        <nav class="top-nav">
+          <a href="leaderboard.html">Leaderboard</a>
+          <a href="races.html">Race details</a>
+          <a href="admin.html">Data refresh</a>
+        </nav>
       </div>
     </header>
 
     <main class="wrap">
-      <section class="panel filters">
-        <h2>Filter rankings</h2>
-        <div class="grid">
-          <label>
-            <span>Race</span>
-            <select id="raceFilter"></select>
-          </label>
-          <label>
-            <span>Division</span>
-            <select id="divisionFilter"></select>
-          </label>
-          <label>
-            <span>Gender</span>
-            <select id="genderFilter"></select>
-          </label>
-          <label>
-            <span>Age Group</span>
-            <select id="ageFilter"></select>
-          </label>
-          <label>
-            <span>Nationality</span>
-            <select id="nationalityFilter"></select>
-          </label>
-          <label>
-            <span>Mode</span>
-            <select id="modeFilter">
-              <option value="all">All</option>
-              <option value="solo">Solo only</option>
-              <option value="open">Open</option>
-              <option value="pro">Pro</option>
-            </select>
-          </label>
-        </div>
-      </section>
-
-      <section class="panel scoreboard">
-        <div class="score-header">
-          <div>
-            <p class="eyebrow">Current view</p>
-            <h2 id="title">Top 10 all-time</h2>
-          </div>
-          <div class="legend">
-            <span class="pill open">Open</span>
-            <span class="pill pro">Pro</span>
-            <span class="pill solo">Solo</span>
-          </div>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Athlete</th>
-                <th>Nationality</th>
-                <th>Age Group</th>
-                <th>Gender</th>
-                <th>Division</th>
-                <th>Mode</th>
-                <th>Best time</th>
-              </tr>
-            </thead>
-            <tbody id="rankingBody"></tbody>
-          </table>
-        </div>
+      <section class="panel feature-grid">
+        <article class="feature-card">
+          <h2>All-time leaderboard</h2>
+          <p>Rank athletes across the cached public race database, filtered by nationality, age group, division, and gender.</p>
+          <a class="btn" href="leaderboard.html">Open leaderboard</a>
+        </article>
+        <article class="feature-card">
+          <h2>Race detail</h2>
+          <p>Drill into any completed event, compare divisions inside a race, and see who posted the best times in context.</p>
+          <a class="btn" href="races.html">Open race details</a>
+        </article>
+        <article class="feature-card">
+          <h2>Data refresh workflow</h2>
+          <p>Use the included public export normalization script and a browser-side snapshot upload workflow when new races land.</p>
+          <a class="btn" href="admin.html">View refresh workflow</a>
+        </article>
       </section>
     </main>
-
-    <script src="app.js"></script>
   </body>
 </html>

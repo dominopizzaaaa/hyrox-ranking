@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HYROX Data Refresh</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero-inner">
+        <div>
+          <p class="eyebrow">Public results archive</p>
+          <h1>Data refresh workflow</h1>
+        </div>
+        <nav class="top-nav">
+          <a href="index.html">Home</a>
+          <a href="leaderboard.html">Leaderboard</a>
+          <a href="races.html">Race details</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <section class="admin-card">
+        <h2>Update the public snapshot</h2>
+        <p class="muted">Upload a normalized JSON export, preview it in the browser, and store it locally for the static site.</p>
+        <label>
+          <span>JSON snapshot</span>
+          <input id="snapshotFile" type="file" accept="application/json" />
+        </label>
+        <div style="margin-top:16px;">
+          <textarea id="snapshotPreview" placeholder="Your normalized public JSON will appear here."></textarea>
+        </div>
+        <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
+          <button id="applySnapshot">Apply snapshot</button>
+          <button id="resetSnapshot">Reset browser cache</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

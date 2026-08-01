@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HYROX Race Details</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero-inner">
+        <div>
+          <p class="eyebrow">Public results archive</p>
+          <h1>Race detail page</h1>
+        </div>
+        <nav class="top-nav">
+          <a href="index.html">Home</a>
+          <a href="leaderboard.html">Leaderboard</a>
+          <a href="admin.html">Data refresh</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <section class="panel filters">
+        <h2>Pick a race</h2>
+        <div class="grid">
+          <label><span>Race</span><select id="raceFilter"></select></label>
+          <label><span>Division</span><select id="divisionFilter"></select></label>
+          <label><span>Gender</span><select id="genderFilter"></select></label>
+          <label><span>Age Group</span><select id="ageFilter"></select></label>
+          <label><span>Nationality</span><select id="nationalityFilter"></select></label>
+        </div>
+      </section>
+
+      <section class="panel scoreboard">
+        <div class="score-header">
+          <div>
+            <p class="eyebrow">Race preview</p>
+            <h2 id="raceResultsTitle">Race results</h2>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Athlete</th>
+                <th>Nationality</th>
+                <th>Age Group</th>
+                <th>Gender</th>
+                <th>Division</th>
+                <th>Mode</th>
+                <th>Best time</th>
+              </tr>
+            </thead>
+            <tbody id="raceResultsBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
