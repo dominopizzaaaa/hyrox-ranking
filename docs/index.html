@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HYROX Global Ranking</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Public results archive</p>
+        <h1>HYROX Global Ranking</h1>
+        <p class="subcopy">
+          Explore all-time public race results, filter by race, gender, age group,
+          nationality, and division, and compare solo Open vs Pro performances.
+        </p>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <section class="panel filters">
+        <h2>Filter rankings</h2>
+        <div class="grid">
+          <label>
+            <span>Race</span>
+            <select id="raceFilter"></select>
+          </label>
+          <label>
+            <span>Division</span>
+            <select id="divisionFilter"></select>
+          </label>
+          <label>
+            <span>Gender</span>
+            <select id="genderFilter"></select>
+          </label>
+          <label>
+            <span>Age Group</span>
+            <select id="ageFilter"></select>
+          </label>
+          <label>
+            <span>Nationality</span>
+            <select id="nationalityFilter"></select>
+          </label>
+          <label>
+            <span>Mode</span>
+            <select id="modeFilter">
+              <option value="all">All</option>
+              <option value="solo">Solo only</option>
+              <option value="open">Open</option>
+              <option value="pro">Pro</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="panel scoreboard">
+        <div class="score-header">
+          <div>
+            <p class="eyebrow">Current view</p>
+            <h2 id="title">Top 10 all-time</h2>
+          </div>
+          <div class="legend">
+            <span class="pill open">Open</span>
+            <span class="pill pro">Pro</span>
+            <span class="pill solo">Solo</span>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Athlete</th>
+                <th>Nationality</th>
+                <th>Age Group</th>
+                <th>Gender</th>
+                <th>Division</th>
+                <th>Mode</th>
+                <th>Best time</th>
+              </tr>
+            </thead>
+            <tbody id="rankingBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
