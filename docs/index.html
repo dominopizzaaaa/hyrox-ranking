@@ -3,46 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HYROX Global Ranking</title>
+    <meta name="description" content="A cached HYROX race-results explorer." />
+    <title>Race Rank — HYROX results explorer</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header class="hero">
       <div class="hero-inner">
-        <div>
-          <p class="eyebrow">Public results archive</p>
-          <h1>HYROX Global Ranking</h1>
-          <p class="subcopy">
-            Explore all-time public race results, filter by race, gender, age group,
-            nationality, and division, and compare solo Open vs Pro performances.
-          </p>
-        </div>
-        <nav class="top-nav">
+        <a class="brand" href="index.html"><span>RACE</span>RANK</a>
+        <nav class="top-nav" aria-label="Primary navigation">
           <a href="leaderboard.html">Leaderboard</a>
-          <a href="races.html">Race details</a>
-          <a href="admin.html">Data refresh</a>
+          <a href="races.html">Race explorer</a>
+          <a href="admin.html">Data policy</a>
         </nav>
+      </div>
+      <div class="hero-copy">
+        <p class="eyebrow">Cached results. Fast comparisons.</p>
+        <h1>Find your place in the field.</h1>
+        <p>Explore stored HYROX race results by gender, individual/open/pro category, age group, nationality, and event—without a live results lookup on every search.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="leaderboard.html">Explore rankings</a>
+          <a class="btn" href="races.html">Browse races</a>
+        </div>
       </div>
     </header>
 
-    <main class="wrap">
-      <section class="panel feature-grid">
-        <article class="feature-card">
-          <h2>All-time leaderboard</h2>
-          <p>Rank athletes across the cached public race database, filtered by nationality, age group, division, and gender.</p>
-          <a class="btn" href="leaderboard.html">Open leaderboard</a>
-        </article>
-        <article class="feature-card">
-          <h2>Race detail</h2>
-          <p>Drill into any completed event, compare divisions inside a race, and see who posted the best times in context.</p>
-          <a class="btn" href="races.html">Open race details</a>
-        </article>
-        <article class="feature-card">
-          <h2>Data refresh workflow</h2>
-          <p>Use the included public export normalization script and a browser-side snapshot upload workflow when new races land.</p>
-          <a class="btn" href="admin.html">View refresh workflow</a>
-        </article>
+    <main class="wrap home-main">
+      <section id="datasetNotice" class="notice loading" aria-live="polite">Loading dataset information…</section>
+      <section class="feature-grid">
+        <article class="feature-card"><span class="feature-number">01</span><h2>All-time bests</h2><p>Each athlete appears once, with their fastest result in the current filters. Choose Top 10, 25, 50, or every matching athlete.</p></article>
+        <article class="feature-card"><span class="feature-number">02</span><h2>Race context</h2><p>Move from global rankings to a specific event and see finishers ranked within the selected category.</p></article>
+        <article class="feature-card"><span class="feature-number">03</span><h2>Cache-first data</h2><p>The public site serves a committed snapshot. Data is refreshed only by a maintainer after finished events are available from an authorized source.</p></article>
       </section>
     </main>
+    <script src="app.js"></script>
   </body>
 </html>

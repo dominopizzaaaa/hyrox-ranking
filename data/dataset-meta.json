@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "source": "demo",
+  "sourceLabel": "Illustrative local data — not a complete HYROX archive",
+  "lastUpdated": "2026-08-02T00:00:00Z",
+  "coverage": "Sample records only",
+  "privacyNotice": "Names, nationality, age group and finish time are personal data when linked to a person. Publish only with a documented lawful basis and a source licence that permits republication.",
+  "ingestedEventSlugs": []
+}

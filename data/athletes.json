@@ -13,5 +13,12 @@
   {"race":"2026 Jakarta","division":"HYROX - Sunday","gender":"Women","ageGroup":"25-29","nationality":"Thailand","firstName":"Nina","lastName":"Kittisak","seconds":2440},
   {"race":"2026 Sydney","division":"HYROX - Saturday","gender":"Men","ageGroup":"35-39","nationality":"Australia","firstName":"Nathan","lastName":"Ross","seconds":2314},
   {"race":"2026 Sydney","division":"HYROX PRO - Saturday","gender":"Men","ageGroup":"25-29","nationality":"Canada","firstName":"Sean","lastName":"Carter","seconds":2011},
-  {"race":"2026 Sydney","division":"HYROX PRO - Saturday","gender":"Women","ageGroup":"30-34","nationality":"United States","firstName":"Grace","lastName":"Hicks","seconds":2087}
+  {"race":"2026 Sydney","division":"HYROX PRO - Saturday","gender":"Women","ageGroup":"30-34","nationality":"United States","firstName":"Grace","lastName":"Hicks","seconds":2087},
+  {"race":"2026 Istanbul","division":"HYROX - Saturday","gender":"Men","ageGroup":"30-34","nationality":"Turkey","firstName":"Yigit","lastName":"Demir","seconds":2335},
+  {"race":"2026 Istanbul","division":"HYROX - Saturday","gender":"Women","ageGroup":"25-29","nationality":"Germany","firstName":"Laura","lastName":"Fischer","seconds":2410},
+  {"race":"2026 Delhi","division":"HYROX - Sunday","gender":"Men","ageGroup":"35-39","nationality":"India","firstName":"Rohit","lastName":"Sharma","seconds":2485},
+  {"race":"2026 Delhi","division":"HYROX - Sunday","gender":"Women","ageGroup":"25-29","nationality":"India","firstName":"Priya","lastName":"Nair","seconds":2550},
+  {"race":"2026 Hangzhou","division":"HYROX PRO - Saturday","gender":"Men","ageGroup":"25-29","nationality":"China","firstName":"Bo","lastName":"Li","seconds":2060},
+  {"race":"2026 Hangzhou","division":"HYROX - Friday","gender":"Women","ageGroup":"30-34","nationality":"China","firstName":"Xinyi","lastName":"Zhang","seconds":2478},
+  {"race":"2026 Jakarta","division":"HYROX PRO - Saturday","gender":"Men","ageGroup":"25-29","nationality":"Indonesia","firstName":"Raka","lastName":"Permana","seconds":2135}
 ]

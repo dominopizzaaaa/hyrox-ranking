@@ -1,0 +1,58 @@
+name: Refresh authorised results cache
+
+on:
+  schedule:
+    - cron: '17 3 * * 1'
+  workflow_dispatch:
+    inputs:
+      full_backfill:
+        description: 'Re-import every completed event (use after source corrections)'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  refresh:
+    if: ${{ secrets.HYROX_RESULTS_API_TOKEN != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Import newly completed events
+        env:
+          HYROX_RESULTS_API_TOKEN: ${{ secrets.HYROX_RESULTS_API_TOKEN }}
+        run: >-
+          python3 scripts/sync_authorized_api.py --confirm-republication-rights
+          ${{ inputs.full_backfill == true && '--full' || '' }}
+      - name: Commit refreshed cache
+        id: commit
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data docs
+          git commit -m "chore: refresh authorised results cache"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+      - name: Configure GitHub Pages
+        if: steps.commit.outputs.changed == 'true'
+        uses: actions/configure-pages@v5
+      - name: Upload Pages artifact
+        if: steps.commit.outputs.changed == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+      - name: Deploy GitHub Pages
+        if: steps.commit.outputs.changed == 'true'
+        id: deployment
+        uses: actions/deploy-pages@v4

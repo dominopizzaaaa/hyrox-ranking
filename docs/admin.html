@@ -1,44 +1,13 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HYROX Data Refresh</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
+  <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Data policy — Race Rank</title><link rel="stylesheet" href="styles.css" /></head>
   <body>
-    <header class="hero">
-      <div class="hero-inner">
-        <div>
-          <p class="eyebrow">Public results archive</p>
-          <h1>Data refresh workflow</h1>
-        </div>
-        <nav class="top-nav">
-          <a href="index.html">Home</a>
-          <a href="leaderboard.html">Leaderboard</a>
-          <a href="races.html">Race details</a>
-        </nav>
-      </div>
-    </header>
-
-    <main class="wrap">
-      <section class="admin-card">
-        <h2>Update the public snapshot</h2>
-        <p class="muted">Upload a normalized JSON export, preview it in the browser, and store it locally for the static site.</p>
-        <label>
-          <span>JSON snapshot</span>
-          <input id="snapshotFile" type="file" accept="application/json" />
-        </label>
-        <div style="margin-top:16px;">
-          <textarea id="snapshotPreview" placeholder="Your normalized public JSON will appear here."></textarea>
-        </div>
-        <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
-          <button id="applySnapshot">Apply snapshot</button>
-          <button id="resetSnapshot">Reset browser cache</button>
-        </div>
-      </section>
-    </main>
-
-    <script src="app.js"></script>
+    <header class="compact-header"><div class="hero-inner"><a class="brand" href="index.html"><span>RACE</span>RANK</a><nav class="top-nav" aria-label="Primary navigation"><a href="leaderboard.html">Leaderboard</a><a href="races.html">Race explorer</a><a class="active" href="admin.html">Data policy</a></nav></div></header>
+    <main class="wrap policy-page">
+      <section id="datasetNotice" class="notice loading" aria-live="polite">Loading dataset information…</section>
+      <section class="page-intro"><p class="eyebrow">Maintainer guide</p><h1>Data that is cache-first and permission-first.</h1><p>This page does not accept browser uploads: a local browser change is not a production update. Production data changes are reviewed, validated, committed, and deployed from the repository.</p></section>
+      <section class="policy-grid"><article class="policy-card"><h2>What the site stores</h2><p>Only the minimum ranking fields: display name, nationality, age group, gender, event, division, and finish time. No email, phone, date of birth, account information, or split-level data is needed.</p></article><article class="policy-card"><h2>Allowed ingestion</h2><p>Use a writtenly authorized HYROX export/API or a data supplier whose contract expressly permits this storage and public republication. Keep the licence and source records with each release.</p></article><article class="policy-card"><h2>Never scrape the portal</h2><p>The HYROX website terms prohibit automated access and scraping. The repository intentionally has no scraper for the HYROX portal.</p></article><article class="policy-card"><h2>Data-subject requests</h2><p>Before a public launch, publish a privacy notice, contact channel, retention schedule, and correction/removal process. Get jurisdiction-specific advice for PDPA/GDPR compliance.</p></article></section>
+      <section class="panel workflow"><h2>Refresh a finished event</h2><ol><li>Obtain the authorized source and record its licence.</li><li>Set <code>HYROX_RESULTS_API_TOKEN</code> locally or as a GitHub Actions secret; it never reaches the static site.</li><li>Run <code>npm run refresh:api -- --full</code> for initial backfill, then <code>npm run refresh:api</code> for newly completed events.</li><li>Run <code>npm test &amp;&amp; npm run validate-data</code>, review the diff, then commit and push.</li></ol><p class="muted">The importer supports the documented independent HYROX Result API as an optional source. It is not affiliated with HYROX; confirm its rights to supply and your rights to republish data before use.</p></section>
+    </main><script src="app.js"></script>
   </body>
 </html>

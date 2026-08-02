@@ -1,12 +1,15 @@
 {
   "name": "hyrox-ranking",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --check docs/app.js && python3 -m py_compile scripts/refresh_public_results.py scripts/sync_authorized_api.py",
+    "serve": "python3 -m http.server 8000 --directory docs",
+    "validate-data": "node scripts/validate_dataset.mjs",
+    "refresh:api": "python3 scripts/sync_authorized_api.py"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "Cached, privacy-conscious HYROX rankings static site"
 }
