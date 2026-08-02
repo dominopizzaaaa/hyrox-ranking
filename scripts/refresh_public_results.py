@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import gzip
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -50,6 +51,13 @@ def write_json(path: Path, payload: Any) -> None:
     path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n")
 
 
+def write_records(path: Path, rows: list[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = json.dumps(rows, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    with gzip.GzipFile(filename=str(path), mode="wb", compresslevel=9, mtime=0) as destination:
+        destination.write(payload)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("input", help="Authorised JSON or CSV export")
@@ -62,8 +70,8 @@ def main() -> None:
     rows = [normalise(row, index) for index, row in enumerate(read_input(Path(args.input)), start=1)]
     rows.sort(key=lambda row: (row["race"], row["division"], row["seconds"], row["lastName"]))
     metadata = {"schemaVersion": 1, "source": "authorised-export", "sourceLabel": args.source_label, "lastUpdated": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"), "coverage": args.coverage, "privacyNotice": "Publication is subject to the source licence, documented lawful basis, and applicable privacy laws.", "ingestedEventSlugs": []}
-    for relative in ("data/athletes.json", "docs/athletes.json"):
-        write_json(ROOT / relative, rows)
+    for relative in ("data/athletes.json.gz", "docs/athletes.json.gz"):
+        write_records(ROOT / relative, rows)
     for relative in ("data/dataset-meta.json", "docs/dataset-meta.json"):
         write_json(ROOT / relative, metadata)
     print(f"Published {len(rows)} validated result rows to the cached dataset.")

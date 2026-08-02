@@ -1,9 +1,952 @@
 {
   "schemaVersion": 1,
-  "source": "demo",
-  "sourceLabel": "Illustrative local data — not a complete HYROX archive",
-  "lastUpdated": "2026-08-02T00:00:00Z",
-  "coverage": "Sample records only",
-  "privacyNotice": "Names, nationality, age group and finish time are personal data when linked to a person. Publish only with a documented lawful basis and a source licence that permits republication.",
-  "ingestedEventSlugs": []
+  "source": "pyrox-client",
+  "sourceLabel": "Cached race results imported with pyrox-client 0.2.5",
+  "lastUpdated": "2026-08-02T13:14:15Z",
+  "coverage": "483,082 finished result rows from 186 imported race files (seasons 1–9)",
+  "privacyNotice": "This independently sourced cache is published only after the maintainer has confirmed that its source licence and privacy basis allow republication.",
+  "pyroxManifestLastModified": "2026-08-01T13:17:25+00:00",
+  "pyroxSkippedEvents": [
+    {
+      "eventKey": "5:k-ln:2023",
+      "fileLastModified": "2025-10-26T09:45:17+00:00",
+      "error": "JSONDecodeError: Extra data: line 254 column 2 (char 8778)"
+    },
+    {
+      "eventKey": "5:karlsruhe:2023",
+      "fileLastModified": "2025-10-26T09:48:07+00:00",
+      "error": "JSONDecodeError: Extra data: line 254 column 2 (char 8778)"
+    },
+    {
+      "eventKey": "5:leipzig:2022",
+      "fileLastModified": "2025-10-26T10:18:02+00:00",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "eventKey": "5:london:2022",
+      "fileLastModified": "2025-10-26T10:09:33+00:00",
+      "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "eventKey": "5:new-york:2022",
+      "fileLastModified": "2025-10-26T10:18:57+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "5:rotterdam:2023",
+      "fileLastModified": "2025-10-26T09:41:35+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "5:stockholm:2023",
+      "fileLastModified": "2025-10-26T09:28:36+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "5:stuttgart:2023",
+      "fileLastModified": "2025-10-26T09:55:34+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "5:valencia:2022",
+      "fileLastModified": "2025-10-26T10:14:38+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "5:wien:2023",
+      "fileLastModified": "2025-10-26T09:48:52+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "5:world-championships-manchester:2023",
+      "fileLastModified": "2025-10-26T09:39:52+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "6:amsterdam:2023",
+      "fileLastModified": "2026-01-04T19:48:15+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "6:barcelona:2023",
+      "fileLastModified": "2026-01-04T19:36:43+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "6:berlin:2024",
+      "fileLastModified": "2026-01-04T18:24:35+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "6:bilbao:2024",
+      "fileLastModified": "2026-01-04T19:03:55+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "6:birmingham:2023",
+      "fileLastModified": "2026-01-04T19:57:48+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "6:bordeaux:2024",
+      "fileLastModified": "2026-01-04T18:20:14+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "6:chicago:2023",
+      "fileLastModified": "2026-01-04T19:41:47+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "6:copenhagen:2024",
+      "fileLastModified": "2026-01-04T18:43:26+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "6:dallas:2023",
+      "fileLastModified": "2026-01-04T19:33:57+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "6:doha-all-women-s-race:2024",
+      "fileLastModified": "2025-10-22T20:22:30+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "6:doha:2024",
+      "fileLastModified": "2026-01-04T18:06:19+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "6:dubai:2023",
+      "fileLastModified": "2026-01-04T20:09:10+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "6:dubai:2024",
+      "fileLastModified": "2026-01-04T19:05:30+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "6:dublin:2023",
+      "fileLastModified": "2026-01-04T19:51:27+00:00",
+      "error": "JSONDecodeError: Extra data: line 261 column 2 (char 9041)"
+    },
+    {
+      "eventKey": "7:johannesburg-i:2025",
+      "fileLastModified": "2026-01-03T14:38:24+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:johannesburg:2025",
+      "fileLastModified": "2025-11-23T15:08:25+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:karlsruhe:2025",
+      "fileLastModified": "2026-01-03T14:43:10+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:katowice:2025",
+      "fileLastModified": "2026-01-03T14:59:36+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:las-vegas:2025",
+      "fileLastModified": "2026-01-03T15:22:31+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:london:2024",
+      "fileLastModified": "2026-01-03T16:08:22+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:london:2025",
+      "fileLastModified": "2026-01-03T13:11:37+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:maastricht:2025",
+      "fileLastModified": "2026-01-03T12:10:53+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:madrid:2024",
+      "fileLastModified": "2026-01-03T17:02:41+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:malaga:2025",
+      "fileLastModified": "2026-01-03T14:05:41+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:manchester:2024",
+      "fileLastModified": "2026-01-03T16:31:10+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:manchester:2025",
+      "fileLastModified": "2026-01-03T15:27:57+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:marseille:2024",
+      "fileLastModified": "2026-01-03T15:53:05+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:melbourne:2024",
+      "fileLastModified": "2026-01-03T15:44:58+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:miami-beach:2025",
+      "fileLastModified": "2026-01-03T13:23:49+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:milan:2024",
+      "fileLastModified": "2026-01-03T17:09:26+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:monterrey:2025",
+      "fileLastModified": "2026-01-03T13:58:45+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:mumbai:2025",
+      "fileLastModified": "2026-01-03T12:12:02+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:new-york:2025",
+      "fileLastModified": "2026-01-03T12:28:13+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:nice:2024",
+      "fileLastModified": "2026-01-03T17:20:28+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:paris:2024",
+      "fileLastModified": "2026-01-03T16:40:27+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:paris:2025",
+      "fileLastModified": "2026-08-01T13:17:25+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:perth:2024",
+      "fileLastModified": "2026-01-03T17:29:29+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:poznan:2024",
+      "fileLastModified": "2026-01-03T16:43:00+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:riga:2025",
+      "fileLastModified": "2026-01-03T12:30:17+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:rimini:2025",
+      "fileLastModified": "2026-01-03T12:37:05+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:rotterdam:2025",
+      "fileLastModified": "2026-01-03T14:52:29+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "7:shanghai:2025",
+      "fileLastModified": "2026-01-03T11:57:49+00:00",
+      "error": "JSONDecodeError: Extra data: line 331 column 2 (char 11462)"
+    },
+    {
+      "eventKey": "8:cardiff:2026",
+      "fileLastModified": "2026-06-16T23:57:08+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:chicago:2025",
+      "fileLastModified": "2026-01-12T15:17:41+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:cologne:2026",
+      "fileLastModified": "2026-06-17T01:43:55+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:copenhagen:2026",
+      "fileLastModified": "2026-03-17T13:48:09+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:dallas:2025",
+      "fileLastModified": "2026-01-12T15:04:08+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:delhi:2025",
+      "fileLastModified": "2026-01-12T18:05:55+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:dublin:2025",
+      "fileLastModified": "2026-01-12T15:29:53+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:emea-london-olympia:2026",
+      "fileLastModified": "2026-03-24T13:12:27+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:fortaleza:2026",
+      "fileLastModified": "2026-03-03T12:54:05+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:frankfurt:2025",
+      "fileLastModified": "2026-01-19T09:03:25+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:gdansk:2025",
+      "fileLastModified": "2026-01-12T16:43:51+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:geneva:2025",
+      "fileLastModified": "2026-01-12T16:40:56+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:gent:2025",
+      "fileLastModified": "2026-06-18T10:01:46+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:glasgow:2026",
+      "fileLastModified": "2026-06-18T06:20:31+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:guadalajara:2026",
+      "fileLastModified": "2026-07-28T19:43:13+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:hamburg:2025",
+      "fileLastModified": "2026-01-12T16:53:06+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:heerenveen:2026",
+      "fileLastModified": "2026-05-25T22:25:30+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:helsinki:2026",
+      "fileLastModified": "2026-06-17T19:11:20+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:hong-kong:2025",
+      "fileLastModified": "2026-01-12T17:59:30+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:hong-kong:2026",
+      "fileLastModified": "2026-05-26T12:45:04+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:houston:2026",
+      "fileLastModified": "2026-03-31T13:46:32+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:incheon:2026",
+      "fileLastModified": "2026-05-25T23:54:09+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:istanbul:2026",
+      "fileLastModified": "2026-02-15T12:53:49+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:johannesburg:2025",
+      "fileLastModified": "2026-01-12T14:07:00+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:johannesburg:2026",
+      "fileLastModified": "2026-06-17T17:22:12+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:katowice:2026",
+      "fileLastModified": "2026-06-18T07:35:56+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:las-vegas:2026",
+      "fileLastModified": "2026-02-26T22:27:48+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:lisboa:2026",
+      "fileLastModified": "2026-06-17T19:35:45+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:london-excel:2025",
+      "fileLastModified": "2026-06-18T11:02:04+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:london-olympia:2026",
+      "fileLastModified": "2026-03-31T13:31:59+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:lyon:2026",
+      "fileLastModified": "2026-05-24T18:05:31+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:maastricht:2025",
+      "fileLastModified": "2026-01-12T17:35:39+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:madrid:2025",
+      "fileLastModified": "2026-01-12T14:32:14+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:malaga:2026",
+      "fileLastModified": "2026-06-17T02:38:52+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:manchester:2026",
+      "fileLastModified": "2026-06-18T09:33:42+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:mechelen:2026",
+      "fileLastModified": "2026-04-07T13:48:51+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:melbourne:2025",
+      "fileLastModified": "2026-01-19T09:19:56+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:mexico-city:2025",
+      "fileLastModified": "2026-01-12T15:39:25+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:miami:2026",
+      "fileLastModified": "2026-06-17T20:35:33+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:monterrey:2026",
+      "fileLastModified": "2026-06-17T19:43:43+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:mumbai:2025",
+      "fileLastModified": "2026-01-12T17:43:46+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:new-york:2026",
+      "fileLastModified": "2026-06-17T17:00:56+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:nice:2026",
+      "fileLastModified": "2026-06-18T08:15:57+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:osaka:2026",
+      "fileLastModified": "2026-02-01T21:41:26+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:oslo:2025",
+      "fileLastModified": "2026-01-12T17:17:38+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:ottawa:2026",
+      "fileLastModified": "2026-05-26T09:25:59+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:paris-gp:2026",
+      "fileLastModified": "2026-05-01T09:01:04+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:paris:2025",
+      "fileLastModified": "2026-01-12T16:09:35+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:perth:2025",
+      "fileLastModified": "2026-01-12T17:48:53+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:phoenix:2026",
+      "fileLastModified": "2026-02-01T21:24:43+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:poznan:2025",
+      "fileLastModified": "2026-06-18T10:27:06+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:puebla:2026",
+      "fileLastModified": "2026-06-17T18:19:38+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:red-bull-monday-night-shift-hyrox-invitational:2026",
+      "fileLastModified": "2026-03-24T13:06:58+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:riga:2026",
+      "fileLastModified": "2026-06-17T17:50:38+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:rimini:2026",
+      "fileLastModified": "2026-06-02T19:29:27+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:rio-de-janeiro:2025",
+      "fileLastModified": "2026-01-12T14:34:21+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:rome:2025",
+      "fileLastModified": "2026-01-12T17:26:44+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:rotterdam:2026",
+      "fileLastModified": "2026-06-17T03:53:31+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:sao-paulo:2025",
+      "fileLastModified": "2026-01-12T17:37:11+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:sao-paulo:2026",
+      "fileLastModified": "2026-05-01T09:03:44+00:00",
+      "error": "JSONDecodeError: Expecting ':' delimiter: line 236 column 11 (char 8165)"
+    },
+    {
+      "eventKey": "8:seoul:2025",
+      "fileLastModified": "2026-01-12T15:43:24+00:00",
+      "error": "JSONDecodeError: Expecting value: line 236 column 13 (char 8167)"
+    },
+    {
+      "eventKey": "8:singapore-expo:2025",
+      "fileLastModified": "2026-01-12T14:39:44+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "8:st-gallen:2026",
+      "fileLastModified": "2026-07-26T22:05:28+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "8:stockholm:2025",
+      "fileLastModified": "2026-06-18T09:44:29+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "8:stockholm:2026",
+      "fileLastModified": "2026-06-23T15:03:07+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "8:stuttgart:2025",
+      "fileLastModified": "2026-01-12T15:55:06+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "8:sydney:2025",
+      "fileLastModified": "2026-01-12T18:13:39+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "8:taipei:2026",
+      "fileLastModified": "2026-06-18T07:00:43+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "8:toronto:2025",
+      "fileLastModified": "2026-01-12T17:01:51+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "8:toulouse:2026",
+      "fileLastModified": "2026-06-17T17:06:02+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "8:turin:2026",
+      "fileLastModified": "2026-02-01T21:50:48+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "8:utrecht:2025",
+      "fileLastModified": "2026-01-12T14:16:10+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "8:valencia:2025",
+      "fileLastModified": "2026-01-12T16:34:41+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "8:vancouver:2025",
+      "fileLastModified": "2026-01-19T08:43:31+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "8:verona:2025",
+      "fileLastModified": "2026-01-12T14:03:00+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "8:vienna:2026",
+      "fileLastModified": "2026-06-18T09:02:23+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "8:warsaw:2026",
+      "fileLastModified": "2026-06-17T00:56:42+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "8:washington-dc:2026",
+      "fileLastModified": "2026-06-18T06:47:59+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "8:wuhan:2026",
+      "fileLastModified": "2026-06-17T04:04:28+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "9:delhi:2026",
+      "fileLastModified": "2026-07-28T18:05:53+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "9:hangzhou:2026",
+      "fileLastModified": "2026-07-21T23:23:51+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "9:jakarta:2026",
+      "fileLastModified": "2026-07-22T00:02:12+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    },
+    {
+      "eventKey": "9:sydney:2026",
+      "fileLastModified": "2026-07-21T23:02:26+00:00",
+      "error": "JSONDecodeError: Extra data: line 373 column 2 (char 12950)"
+    }
+  ],
+  "ingestedEventSlugs": [
+    "2EFMS4JI21D",
+    "2EFMS4JI21E",
+    "2EFMS4JI21F",
+    "2EFMS4JI220",
+    "2EFMS4JI259",
+    "2EFMS4JI25B",
+    "2EFMS4JI26D",
+    "2EFMS4JI26E",
+    "2EFMS4JI281",
+    "2EFMS4JI282",
+    "2EFMS4JI283",
+    "2EFMS4JI284",
+    "2EFMS4JI285",
+    "2EFMS4JI286",
+    "2EFMS4JI289",
+    "2EFMS4JI2A9",
+    "2EFMS4JI2BD",
+    "2EFMS4JI2BE",
+    "2EFMS4JI2BF",
+    "2EFMS4JI2C2",
+    "2EFMS4JI2C3",
+    "2EFMS4JI2C4",
+    "2EFMS4JI2C5",
+    "2EFMS4JI2C6",
+    "2EFMS4JI2C7",
+    "2EFMS4JI2C8",
+    "2EFMS4JI2C9",
+    "2EFMS4JI2CA",
+    "2EFMS4JI2CB",
+    "2EFMS4JI2CC",
+    "2EFMS4JI349",
+    "2EFMS4JI385",
+    "2EFMS4JI399",
+    "2EFMS4JI39A",
+    "2EFMS4JI3C1",
+    "999999212F07B50000000015",
+    "999999212F07B50000000029",
+    "999999212F07B5000000003D",
+    "999999212F07B50000000051",
+    "999999212F07B50000000052",
+    "999999212F07B50000000065",
+    "999999212F07B50000000066",
+    "999999212F07B50000000067",
+    "999999212F07B50000000068",
+    "999999212F07B5000000008D",
+    "999999212F07B5000000008E",
+    "999999212F07B500000000A1",
+    "999999212F07B500000000F1",
+    "999999212F07B50000000105",
+    "999999212F07B50000000119",
+    "999999212F07B5000000012D",
+    "999999212F07B50000000169",
+    "999999212F07B50000000191",
+    "999999212F07B50000000192",
+    "999999212F07B600000001E1",
+    "JGDMS4JI3D5",
+    "JGDMS4JI3D6",
+    "JGDMS4JI3D7",
+    "JGDMS4JI3E9",
+    "JGDMS4JI3FD",
+    "JGDMS4JI3FE",
+    "JGDMS4JI411",
+    "JGDMS4JI425",
+    "JGDMS4JI439",
+    "JGDMS4JI44E",
+    "JGDMS4JI44F",
+    "JGDMS4JI462",
+    "JGDMS4JI464",
+    "JGDMS4JI466",
+    "JGDMS4JI46A",
+    "JGDMS4JI46C",
+    "JGDMS4JI46D",
+    "JGDMS4JI46F",
+    "JGDMS4JI470",
+    "JGDMS4JI471",
+    "JGDMS4JI472",
+    "JGDMS4JI473",
+    "JGDMS4JI474",
+    "JGDMS4JI47A",
+    "JGDMS4JI4D9",
+    "JGDMS4JI515",
+    "JGDMS4JI516",
+    "JGDMS4JI52E",
+    "JGDMS4JI530",
+    "JGDMS4JI53D",
+    "JGDMS4JI551",
+    "JGDMS4JI565",
+    "JGDMS4JI579",
+    "JGDMS4JI58D",
+    "JGDMS4JI5A1",
+    "JGDMS4JI5BB",
+    "JGDMS4JI5C9",
+    "JGDMS4JI5F2",
+    "JGDMS4JI619",
+    "JGDMS4JI62E",
+    "JGDMS4JI655",
+    "JGDMS4JI656",
+    "JGDMS4JI66A",
+    "JGDMS4JI6AA",
+    "JGDMS4JI6AB",
+    "JGDMS4JI6BA",
+    "JGDMS4JI6F5",
+    "JGDMS4JI709",
+    "JGDMS4JI70A",
+    "JGDMS4JI70C",
+    "JGDMS4JI71D",
+    "JGDMS4JI745",
+    "JGDMS4JI747",
+    "JGDMS4JI748",
+    "JGDMS4JI75A",
+    "JGDMS4JI76F",
+    "JGDMS4JI771",
+    "JGDMS4JI7AA",
+    "JGDMS4JI7D1",
+    "JGDMS4JI7E7",
+    "JGDMS4JI7E8",
+    "JGDMS4JI7FB",
+    "JGDMS4JI80E",
+    "JGDMS4JI80F",
+    "JGDMS4JI849",
+    "JGDMS4JI85D",
+    "JGDMS4JI860",
+    "JGDMS4JI871",
+    "JGDMS4JI872",
+    "JGDMS4JI885",
+    "JGDMS4JI89A",
+    "JGDMS4JI89B",
+    "JGDMS4JI8AE",
+    "JGDMS4JI8B1",
+    "JGDMS4JI8B2",
+    "JGDMS4JI8B3",
+    "JGDMS4JI8B4",
+    "JGDMS4JI8B5",
+    "JGDMS4JI8B6",
+    "JGDMS4JI8B7",
+    "JGDMS4JI8D9",
+    "JGDMS4JI8FD",
+    "JGDMS4JI8FE",
+    "JGDMS4JI8FF",
+    "JGDMS4JI913",
+    "JGDMS4JI918",
+    "JGDMS4JI925",
+    "JGDMS4JI93C",
+    "JGDMS4JI93E",
+    "JGDMS4JI94F",
+    "JGDMS4JI964",
+    "JGDMS4JI975",
+    "JGDMS4JI976",
+    "JGDMS4JI98E",
+    "JGDMS4JI999",
+    "JGDMS4JI9A3",
+    "JGDMS4JI9B1",
+    "LR3MS4JI11AC",
+    "LR3MS4JI1223",
+    "LR3MS4JI1236",
+    "LR3MS4JI1237",
+    "LR3MS4JI1238",
+    "LR3MS4JI1239",
+    "LR3MS4JI123A",
+    "LR3MS4JI1289",
+    "LR3MS4JI128B",
+    "LR3MS4JI128C",
+    "LR3MS4JI129A",
+    "LR3MS4JI129B",
+    "LR3MS4JI129C",
+    "LR3MS4JI129D",
+    "LR3MS4JI12C3",
+    "LR3MS4JI13DF",
+    "LR3MS4JI13E0",
+    "LR3MS4JI13E1",
+    "LR3MS4JI13EE",
+    "LR3MS4JI13EF",
+    "LR3MS4JI1452",
+    "LR3MS4JI1453",
+    "LR3MS4JI1454",
+    "LR3MS4JI1467",
+    "LR3MS4JI1468",
+    "LR3MS4JI1469",
+    "LR3MS4JI147A",
+    "LR3MS4JI147B",
+    "LR3MS4JI148E",
+    "LR3MS4JI1490",
+    "LR3MS4JI1491",
+    "LR3MS4JI1509",
+    "LR3MS4JI150C",
+    "LR3MS4JI150D",
+    "LR3MS4JI150E",
+    "LR3MS4JI150F",
+    "LR3MS4JI1510",
+    "LR3MS4JI1511",
+    "LR3MS4JI1598",
+    "LR3MS4JI1599",
+    "LR3MS4JI160A",
+    "LR3MS4JI160B",
+    "LR3MS4JI160C",
+    "LR3MS4JI160D",
+    "LR3MS4JI1632",
+    "LR3MS4JI1633",
+    "LR3MS4JI1634",
+    "LR3MS4JI1635",
+    "LR3MS4JI1636",
+    "LR3MS4JI1637",
+    "LR3MS4JI1638",
+    "LR3MS4JI1639",
+    "LR3MS4JI1682",
+    "LR3MS4JI9DA",
+    "LR3MS4JIA01",
+    "LR3MS4JIA02",
+    "LR3MS4JIA15",
+    "LR3MS4JIA19",
+    "LR3MS4JIA1B",
+    "LR3MS4JIA1C",
+    "LR3MS4JIA1D",
+    "LR3MS4JIA1E",
+    "LR3MS4JIA3D",
+    "LR3MS4JIA3F",
+    "LR3MS4JIA54",
+    "LR3MS4JIA55",
+    "LR3MS4JIA56",
+    "LR3MS4JIA57",
+    "LR3MS4JIA58",
+    "LR3MS4JIA65",
+    "LR3MS4JIA66",
+    "LR3MS4JIA67",
+    "LR3MS4JIA79",
+    "LR3MS4JIAA1",
+    "LR3MS4JIAA2",
+    "LR3MS4JIAA4",
+    "LR3MS4JIAC9",
+    "LR3MS4JIACA",
+    "LR3MS4JIACB",
+    "LR3MS4JIAF1",
+    "LR3MS4JIB05",
+    "LR3MS4JIB06",
+    "LR3MS4JIB19",
+    "LR3MS4JIB41",
+    "LR3MS4JIB42",
+    "LR3MS4JIB55",
+    "LR3MS4JIB56",
+    "LR3MS4JIB57",
+    "LR3MS4JIC31",
+    "LR3MS4JICA9",
+    "LR3MS4JICD1",
+    "LR3MS4JICD3",
+    "LR3MS4JICD4",
+    "LR3MS4JICFB",
+    "LR3MS4JIDD5",
+    "LR3MS4JIE12",
+    "LR3MS4JIE26",
+    "LR3MS4JIE27",
+    "LR3MS4JIE62",
+    "LR3MS4JIEB2",
+    "LR3MS4JIEB3",
+    "LR3MS4JIEC6",
+    "LR3MS4JIFA2",
+    "LR3MS4JIFB6",
+    "LR3MS4JIFCA",
+    "LR3MS4JIFDE",
+    "LR3MS4JIFF2"
+  ]
 }

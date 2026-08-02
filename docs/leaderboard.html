@@ -5,7 +5,7 @@
     <header class="compact-header"><div class="hero-inner"><a class="brand" href="index.html"><span>RACE</span>RANK</a><nav class="top-nav" aria-label="Primary navigation"><a class="active" href="leaderboard.html">Leaderboard</a><a href="races.html">Race explorer</a><a href="admin.html">Data policy</a></nav></div></header>
     <main class="wrap">
       <section id="datasetNotice" class="notice loading" aria-live="polite">Loading dataset information…</section>
-      <section class="page-intro"><p class="eyebrow">All-time ranking</p><h1>Fastest finishes, filtered your way.</h1><p>One fastest valid result per athlete. Times are only comparable within your selected category.</p></section>
+      <section class="page-intro"><p class="eyebrow">All-time ranking</p><h1>Fastest finishes, filtered your way.</h1><p>One fastest valid result per athlete. Combine competition type and tier—for example, individual Open men from Singapore.</p></section>
       <section class="panel filters" aria-label="Ranking filters">
         <div class="filter-title"><h2>Filters</h2><button id="clearFilters" class="text-button" type="button">Clear all</button></div>
         <div class="grid">
@@ -14,7 +14,8 @@
           <label><span>Gender</span><select id="genderFilter"></select></label>
           <label><span>Age group</span><select id="ageFilter"></select></label>
           <label><span>Nationality</span><select id="nationalityFilter"></select></label>
-          <label><span>Format</span><select id="modeFilter"><option value="all">All formats</option><option value="solo">Individual / solo</option><option value="open">Open only</option><option value="pro">Pro only</option></select></label>
+          <label><span>Competition type</span><select id="formatFilter"><option value="all">All competition types</option><option value="Individual">Individual</option><option value="Doubles">Doubles</option><option value="Relay">Relay</option><option value="Adaptive">Adaptive</option></select></label>
+          <label><span>Tier</span><select id="tierFilter"><option value="all">All tiers</option><option value="Open">Open</option><option value="Pro">Pro</option></select></label>
           <label><span>Show</span><select id="limitFilter"><option value="10">Top 10</option><option value="25">Top 25</option><option value="50">Top 50</option><option value="all">All matches</option></select></label>
         </div>
       </section>

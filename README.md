@@ -1,10 +1,10 @@
 # Race Rank — cached HYROX rankings
 
-A static GitHub Pages site for exploring a locally cached results snapshot. Visitors can filter all-time athlete bests and individual race results by race, division, gender, age group, nationality, and individual/open/pro format. The site never contacts a results provider in a visitor's browser.
+A static GitHub Pages site for exploring a locally cached results snapshot. Visitors can filter all-time athlete bests and individual race results by race, division, gender, age group, nationality, competition type, and Open/Pro tier. The site never contacts a results provider in a visitor's browser.
 
 ## Important: data rights and privacy
 
-This repository does **not** scrape HYROX websites. HYROX's current [Terms of Use](https://hyrox.com/terms-of-use/) prohibit bots, spiders, scrapers, and automated methods that access or republish the site or its data. Do not add a portal scraper here.
+This repository does **not** scrape HYROX websites. It uses the independently maintained `pyrox-client` package and its published CDN dataset as an optional import source; it is not affiliated with HYROX. Before putting imported results on a public website, confirm that your data-source licence and the applicable privacy rules permit storage and republication.
 
 The included `athletes.json` is illustrative demo data only; it is not a complete historical ranking and must not be represented as one. Athlete name, nationality, age group, and finish time are personal data when associated with a person. Public visibility of a result is not automatically permission to copy, aggregate, and republish it.
 
@@ -20,11 +20,11 @@ This is practical engineering guidance, not legal advice.
 ## Data architecture
 
 ```
-authorised API/export → validation + normalisation → data/athletes.json
-                                                  ↘ docs/athletes.json → GitHub Pages
+authorised API/export → validation + normalisation → data/athletes.json.gz
+                                                  ↘ docs/athletes.json.gz → GitHub Pages
 ```
 
-`data/` is the reviewed source cache and `docs/` is the deployed mirror. Rankings happen in the browser against that committed cache, so filtering is instant and creates no provider traffic. The importer excludes missing/invalid finish times and the all-time view keeps an athlete's fastest matching result.
+`data/` is the reviewed source cache and `docs/` is the deployed mirror. The result cache is gzip-compressed before commit so the full snapshot stays below GitHub's file-size limit; the browser decompresses it locally before filtering. Rankings happen in the browser against that committed cache, so filtering is instant and creates no provider traffic. The importer excludes missing/invalid finish times and the all-time view keeps an athlete's fastest matching result.
 
 ## Updating data
 
@@ -39,18 +39,28 @@ python3 scripts/refresh_public_results.py authorised-export.csv \
   --confirm-republication-rights
 ```
 
-### Option B — authenticated API cache update
+### Option B — pyrox-client cache update
 
-The optional `scripts/sync_authorized_api.py` adapter targets the documented [independent Hyrox Result API](https://hyroxresultapi.com/documentation). It is not affiliated with HYROX. Its documentation requires an active subscription/token and it returns event catalogues and paginated results. Confirm the provider's provenance and that its terms give **you** public-republication rights before using it.
+`scripts/sync_pyrox.py` downloads the version-pinned `pyrox-client` manifest and result files into the checked-in static cache. The first import must be a full backfill; later imports replace only result files whose manifest timestamp changed. The script requires an explicit confirmation before it writes public data.
 
 ```bash
-export HYROX_RESULTS_API_TOKEN='your-token' # keep this out of Git
-npm run refresh:api -- --full --confirm-republication-rights
+python3 -m pip install -r requirements.txt
+
+# Inspect a small sample first. This never changes data/ or docs/.
+npm run refresh:pyrox -- --dry-run --max-events 1
+
+# After confirming your republication rights, create the public cache.
+npm run refresh:pyrox -- --full --confirm-republication-rights
+
+# Later, import only changed source event files.
+npm run refresh:pyrox -- --confirm-republication-rights
 ```
 
-Use `--full` once for a backfill. Later, run the default command after newly completed races; it checks only events ending since the previous successful sync and does not rewrite the cache if there are no new result rows. Use `--full` again after confirmed source corrections.
+Use `--full` once for a backfill and again after a schema change or confirmed source correction. `--max-events` is intentionally limited to dry runs so a partial test cannot replace the public cache. The importer excludes missing or invalid finish times, gives each imported result a stable event key, and replaces all rows from an updated event together.
 
-GitHub Actions can perform the incremental check every Monday via `.github/workflows/refresh-results.yml`. Add `HYROX_RESULTS_API_TOKEN` at **Repository Settings → Secrets and variables → Actions** first. The workflow is intentionally skipped without that secret. Tokens never enter `docs/` or the website.
+If a single published source file is malformed or temporarily unavailable, the importer logs it as skipped, publishes the successful event files, and retries that event on the next incremental run. Add `--strict` only when you want any failed event to stop the import.
+
+GitHub Actions can perform the incremental check every Monday via `.github/workflows/refresh-results.yml`, but it is intentionally disabled until you set repository variable `ENABLE_PYROX_SYNC` to `true`. That is a deliberate public-republication safeguard, not a technical requirement.
 
 ## Local preview and checks
 
