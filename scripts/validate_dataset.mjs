@@ -7,7 +7,7 @@ const contents = files.map((file) => ({ file, data: JSON.parse(zlib.gunzipSync(f
 const metadataFiles = ['data/dataset-meta.json', 'docs/dataset-meta.json'];
 const metadata = metadataFiles.map((file) => ({ file, data: JSON.parse(fs.readFileSync(file, 'utf8')) }));
 
-const compTypes = new Set(['Individual', 'Doubles']);
+const compTypes = new Set(['Individual', 'Doubles', 'Relay', 'Adaptive']);
 const tiers = new Set(['Open', 'Pro']);
 
 for (const { file, data } of contents) {

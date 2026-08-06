@@ -33,6 +33,8 @@ DIVISION_MAP = {
     "pro": ("Individual", "Pro"),
     "doubles": ("Doubles", "Open"),
     "pro_doubles": ("Doubles", "Pro"),
+    "relay": ("Relay", "Open"),
+    "adaptive": ("Adaptive", "Open"),
 }
 
 

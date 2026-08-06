@@ -37,7 +37,7 @@ const COUNTRIES = {
 };
 
 const GENDERS = { male: 'Men', female: 'Women', mixed: 'Mixed' };
-const COMP_TYPES = ['Individual', 'Doubles'];
+const COMP_TYPES = ['Individual', 'Doubles', 'Relay', 'Adaptive'];
 const TIERS = ['Open', 'Pro'];
 const LIMITS = ['25', '50', '100', 'all'];
 
