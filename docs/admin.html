@@ -1,13 +1,54 @@
 <!doctype html>
 <html lang="en">
-  <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Data policy — Race Rank</title><link rel="stylesheet" href="styles.css" /></head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About the data — Race Rank</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
   <body>
-    <header class="compact-header"><div class="hero-inner"><a class="brand" href="index.html"><span>RACE</span>RANK</a><nav class="top-nav" aria-label="Primary navigation"><a href="leaderboard.html">Leaderboard</a><a href="races.html">Race explorer</a><a class="active" href="admin.html">Data policy</a></nav></div></header>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="index.html"><span class="brand-mark">RR</span><span class="brand-text">RACE<b>RANK</b></span></a>
+        <nav class="top-nav" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="leaderboard.html">Leaderboard</a>
+          <a href="races.html">Events</a>
+          <a class="active" href="admin.html">About the data</a>
+        </nav>
+      </div>
+    </header>
+
     <main class="wrap policy-page">
-      <section id="datasetNotice" class="notice loading" aria-live="polite">Loading dataset information…</section>
-      <section class="page-intro"><p class="eyebrow">Maintainer guide</p><h1>Data that is cache-first and permission-first.</h1><p>This page does not accept browser uploads: a local browser change is not a production update. Production data changes are reviewed, validated, committed, and deployed from the repository.</p></section>
-      <section class="policy-grid"><article class="policy-card"><h2>What the site stores</h2><p>Only the minimum ranking fields: display name, nationality, age group, gender, event, division, and finish time. No email, phone, date of birth, account information, or split-level data is needed.</p></article><article class="policy-card"><h2>Allowed ingestion</h2><p>Use an export or supplier whose terms expressly permit this storage and public republication. Keep the licence and source records with each release.</p></article><article class="policy-card"><h2>Never scrape the portal</h2><p>The repository intentionally has no scraper for the HYROX portal. Its optional importer uses the independently maintained pyrox-client dataset instead.</p></article><article class="policy-card"><h2>Data-subject requests</h2><p>Before a public launch, publish a privacy notice, contact channel, retention schedule, and correction/removal process. Get jurisdiction-specific advice for PDPA/GDPR compliance.</p></article></section>
-      <section class="panel workflow"><h2>Refresh the cached results</h2><ol><li>Confirm and record that the source terms permit public republication.</li><li>Run <code>python3 -m pip install -r requirements.txt</code>.</li><li>Run <code>npm run refresh:pyrox -- --dry-run --max-events 1</code>, then run <code>npm run refresh:pyrox -- --full --confirm-republication-rights</code> for the initial backfill.</li><li>For later updates, run <code>npm run refresh:pyrox -- --confirm-republication-rights</code>.</li><li>Run <code>npm test &amp;&amp; npm run validate-data</code>, review the diff, then commit and push.</li></ol><p class="muted">pyrox-client is independent of HYROX. A technical download path is not by itself a licence to republish participant data.</p></section>
-    </main><script src="app.js"></script>
+      <section id="datasetNotice" class="notice loading" aria-live="polite">Loading dataset…</section>
+
+      <section class="page-intro">
+        <p class="eyebrow">About the data</p>
+        <h1>Where these results come from.</h1>
+        <p>Race Rank serves a cleaned, committed snapshot of HYROX results. Nothing is looked up live in your browser, and the site never scrapes hyrox.com directly.</p>
+      </section>
+
+      <section class="policy-grid">
+        <article class="policy-card"><h2>Source</h2><p>Results are imported from the independently maintained <a href="https://github.com/vmatei2/pyrox-client" rel="noopener">pyrox-client</a> dataset — an unofficial, MIT-licensed HYROX results API covering seasons 1–9. Race Rank is not affiliated with HYROX.</p></article>
+        <article class="policy-card"><h2>What is stored</h2><p>Only the fields needed to rank a finish: display name, nation, age group, gender, event, competition/tier, and finish time. No contact details, account data, or split-level information.</p></article>
+        <article class="policy-card"><h2>Cleaning</h2><p>The importer drops placeholder entries and physically impossible finish times, de-duplicates doubles nations, and tags every row with a canonical competition type and tier so filters behave predictably.</p></article>
+        <article class="policy-card"><h2>Refresh &amp; removal</h2><p>The cache is rebuilt only by a maintainer from an authorised import. Before any production launch, confirm your source licence permits republication and publish a correction/removal contact.</p></article>
+      </section>
+
+      <section class="panel workflow">
+        <h2 class="panel-title">Refresh the cache</h2>
+        <ol>
+          <li>Install dependencies: <code>python3 -m pip install -r requirements.txt</code>.</li>
+          <li>Import latest results: <code>npm run refresh:pyrox -- --full --confirm-republication-rights</code>.</li>
+          <li>Clean &amp; normalise: <code>python3 scripts/clean_dataset.py</code>.</li>
+          <li>Validate, then commit &amp; push: <code>npm run validate-data</code>.</li>
+        </ol>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Data via the independent <a href="https://github.com/vmatei2/pyrox-client" rel="noopener">pyrox-client</a> dataset. Not affiliated with HYROX.</p>
+    </footer>
+    <script src="app.js"></script>
   </body>
 </html>

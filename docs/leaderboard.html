@@ -1,28 +1,60 @@
 <!doctype html>
 <html lang="en">
-  <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Leaderboard — Race Rank</title><link rel="stylesheet" href="styles.css" /></head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaderboard — Race Rank</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
   <body>
-    <header class="compact-header"><div class="hero-inner"><a class="brand" href="index.html"><span>RACE</span>RANK</a><nav class="top-nav" aria-label="Primary navigation"><a class="active" href="leaderboard.html">Leaderboard</a><a href="races.html">Race explorer</a><a href="admin.html">Data policy</a></nav></div></header>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="index.html"><span class="brand-mark">RR</span><span class="brand-text">RACE<b>RANK</b></span></a>
+        <nav class="top-nav" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a class="active" href="leaderboard.html">Leaderboard</a>
+          <a href="races.html">Events</a>
+          <a href="admin.html">About the data</a>
+        </nav>
+      </div>
+    </header>
+
     <main class="wrap">
-      <section id="datasetNotice" class="notice loading" aria-live="polite">Loading dataset information…</section>
-      <section class="page-intro"><p class="eyebrow">All-time ranking</p><h1>Fastest finishes, filtered your way.</h1><p>One fastest valid result per athlete. Combine competition type and tier—for example, individual Open men from Singapore.</p></section>
-      <section class="panel filters" aria-label="Ranking filters">
-        <div class="filter-title"><h2>Filters</h2><button id="clearFilters" class="text-button" type="button">Clear all</button></div>
-        <div class="grid">
-          <label><span>Race</span><select id="raceFilter"></select></label>
-          <label><span>Division</span><select id="divisionFilter"></select></label>
-          <label><span>Gender</span><select id="genderFilter"></select></label>
-          <label><span>Age group</span><select id="ageFilter"></select></label>
-          <label><span>Nationality</span><select id="nationalityFilter"></select></label>
-          <label><span>Competition type</span><select id="formatFilter"><option value="all">All competition types</option><option value="Individual">Individual</option><option value="Doubles">Doubles</option><option value="Relay">Relay</option><option value="Adaptive">Adaptive</option></select></label>
-          <label><span>Tier</span><select id="tierFilter"><option value="all">All tiers</option><option value="Open">Open</option><option value="Pro">Pro</option></select></label>
-          <label><span>Show</span><select id="limitFilter"><option value="10">Top 10</option><option value="25">Top 25</option><option value="50">Top 50</option><option value="all">All matches</option></select></label>
+      <section id="datasetNotice" class="notice loading" aria-live="polite">Loading dataset…</section>
+
+      <section class="page-intro">
+        <p class="eyebrow">All-time ranking</p>
+        <h1>Fastest finishes, filtered your way.</h1>
+        <p>One fastest valid result per athlete or team. Combine competition type, tier, gender, age, and nation.</p>
+      </section>
+
+      <section class="panel filters">
+        <div class="filter-head"><h2>Filters</h2><button id="clearFilters" class="text-btn" type="button">Clear all</button></div>
+        <div class="filter-grid">
+          <label><span>Event</span><select id="raceFilter" data-filter="race"></select></label>
+          <label><span>Competition</span><select id="compFilter" data-filter="comp"><option value="all">All competitions</option><option value="Individual">Individual</option><option value="Doubles">Doubles</option></select></label>
+          <label><span>Tier</span><select id="tierFilter" data-filter="tier"><option value="all">All tiers</option><option value="Open">Open</option><option value="Pro">Pro</option></select></label>
+          <label><span>Gender</span><select id="genderFilter" data-filter="gender"></select></label>
+          <label><span>Age group</span><select id="ageFilter" data-filter="age"></select></label>
+          <label><span>Nation</span><select id="nationalityFilter" data-filter="nationality"></select></label>
+          <label><span>Show</span><select id="limitFilter" data-filter="limit"><option value="25">Top 25</option><option value="50" selected>Top 50</option><option value="100">Top 100</option><option value="all">All matches</option></select></label>
         </div>
       </section>
+
       <section class="panel scoreboard">
-        <div class="score-header"><div><p class="eyebrow">Current view</p><h2 id="title">Loading rankings…</h2><p id="resultsSummary" class="muted"></p></div></div>
-        <div class="table-wrap"><table><thead><tr><th>Rank</th><th>Athlete</th><th>Race</th><th>Nation</th><th>Age group</th><th>Gender</th><th>Division</th><th>Time</th></tr></thead><tbody id="rankingBody"></tbody></table></div>
+        <div class="score-head"><p class="eyebrow">Current view</p><h2 id="title">Loading rankings…</h2><p id="resultsSummary" class="muted"></p></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Athlete / Team</th><th>Event</th><th>Nation</th><th>Age</th><th>Gender</th><th>Category</th><th>Time</th></tr></thead>
+            <tbody id="rankingBody"></tbody>
+          </table>
+        </div>
       </section>
-    </main><script src="app.js"></script>
+    </main>
+
+    <footer class="site-footer">
+      <p>Data via the independent <a href="https://github.com/vmatei2/pyrox-client" rel="noopener">pyrox-client</a> dataset. Not affiliated with HYROX.</p>
+    </footer>
+    <script src="app.js"></script>
   </body>
 </html>

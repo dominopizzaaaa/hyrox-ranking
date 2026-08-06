@@ -3,39 +3,55 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="A cached HYROX race-results explorer." />
+    <meta name="description" content="Explore hundreds of thousands of HYROX race results — leaderboards, per-event rankings, and filters by division, gender, age, and nation." />
     <title>Race Rank — HYROX results explorer</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header class="hero">
-      <div class="hero-inner">
-        <a class="brand" href="index.html"><span>RACE</span>RANK</a>
-        <nav class="top-nav" aria-label="Primary navigation">
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="index.html"><span class="brand-mark">RR</span><span class="brand-text">RACE<b>RANK</b></span></a>
+        <nav class="top-nav" aria-label="Primary">
+          <a class="active" href="index.html">Home</a>
           <a href="leaderboard.html">Leaderboard</a>
-          <a href="races.html">Race explorer</a>
-          <a href="admin.html">Data policy</a>
+          <a href="races.html">Events</a>
+          <a href="admin.html">About the data</a>
         </nav>
-      </div>
-      <div class="hero-copy">
-        <p class="eyebrow">Cached results. Fast comparisons.</p>
-        <h1>Find your place in the field.</h1>
-        <p>Explore stored HYROX race results by gender, individual/open/pro category, age group, nationality, and event—without a live results lookup on every search.</p>
-        <div class="hero-actions">
-          <a class="btn primary" href="leaderboard.html">Explore rankings</a>
-          <a class="btn" href="races.html">Browse races</a>
-        </div>
       </div>
     </header>
 
-    <main class="wrap home-main">
-      <section id="datasetNotice" class="notice loading" aria-live="polite">Loading dataset information…</section>
+    <section class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">Unofficial HYROX results explorer</p>
+        <h1>Every finish line,<br /><span class="grad">one leaderboard.</span></h1>
+        <p class="lead">Search and rank hundreds of thousands of HYROX finishes by division, gender, age group, nation, and event — instantly, all in your browser.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="leaderboard.html">Explore the leaderboard</a>
+          <a class="btn ghost" href="races.html">Browse events</a>
+        </div>
+      </div>
+    </section>
+
+    <main class="wrap">
+      <section id="datasetNotice" class="notice loading" aria-live="polite">Loading dataset…</section>
+
+      <section class="stat-grid" id="statGrid" aria-label="Dataset overview"></section>
+
+      <section class="panel highlight-panel">
+        <h2 class="panel-title">All-time leaders</h2>
+        <ul class="fastest-list" id="fastestList"><li class="muted">Loading records…</li></ul>
+      </section>
+
       <section class="feature-grid">
-        <article class="feature-card"><span class="feature-number">01</span><h2>All-time bests</h2><p>Each athlete appears once, with their fastest result in the current filters. Choose Top 10, 25, 50, or every matching athlete.</p></article>
-        <article class="feature-card"><span class="feature-number">02</span><h2>Race context</h2><p>Move from global rankings to a specific event and see finishers ranked within the selected category.</p></article>
-        <article class="feature-card"><span class="feature-number">03</span><h2>Cache-first data</h2><p>The public site serves a committed snapshot. Data is refreshed only by a maintainer after finished events are available from an authorized source.</p></article>
+        <article class="feature-card"><span class="feature-num">01</span><h3>All-time bests</h3><p>Each athlete or team appears once, ranked by their fastest matching result across every event.</p></article>
+        <article class="feature-card"><span class="feature-num">02</span><h3>Per-event rankings</h3><p>Drill into any single event and rank finishers within any division, gender, or age group.</p></article>
+        <article class="feature-card"><span class="feature-num">03</span><h3>Instant &amp; private</h3><p>The full dataset is downloaded once and filtered locally. No live lookups, no tracking.</p></article>
       </section>
     </main>
+
+    <footer class="site-footer">
+      <p>Data via the independent <a href="https://github.com/vmatei2/pyrox-client" rel="noopener">pyrox-client</a> dataset. Not affiliated with HYROX.</p>
+    </footer>
     <script src="app.js"></script>
   </body>
 </html>

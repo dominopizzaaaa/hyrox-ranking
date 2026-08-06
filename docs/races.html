@@ -1,13 +1,59 @@
 <!doctype html>
 <html lang="en">
-  <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Race explorer — Race Rank</title><link rel="stylesheet" href="styles.css" /></head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Events — Race Rank</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
   <body>
-    <header class="compact-header"><div class="hero-inner"><a class="brand" href="index.html"><span>RACE</span>RANK</a><nav class="top-nav" aria-label="Primary navigation"><a href="leaderboard.html">Leaderboard</a><a class="active" href="races.html">Race explorer</a><a href="admin.html">Data policy</a></nav></div></header>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="index.html"><span class="brand-mark">RR</span><span class="brand-text">RACE<b>RANK</b></span></a>
+        <nav class="top-nav" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="leaderboard.html">Leaderboard</a>
+          <a class="active" href="races.html">Events</a>
+          <a href="admin.html">About the data</a>
+        </nav>
+      </div>
+    </header>
+
     <main class="wrap">
-      <section id="datasetNotice" class="notice loading" aria-live="polite">Loading dataset information…</section>
-      <section class="page-intro"><p class="eyebrow">Race explorer</p><h1>See the field at each event.</h1><p>Choose an event, then filter the event finishers by category. Race rank recalculates within the visible group.</p></section>
-      <section class="panel filters"><div class="filter-title"><h2>Filters</h2><button id="clearFilters" class="text-button" type="button">Clear all</button></div><div class="grid"><label><span>Race</span><select id="raceFilter"></select></label><label><span>Division</span><select id="divisionFilter"></select></label><label><span>Gender</span><select id="genderFilter"></select></label><label><span>Age group</span><select id="ageFilter"></select></label><label><span>Nationality</span><select id="nationalityFilter"></select></label><label><span>Competition type</span><select id="formatFilter"><option value="all">All competition types</option><option value="Individual">Individual</option><option value="Doubles">Doubles</option><option value="Relay">Relay</option><option value="Adaptive">Adaptive</option></select></label><label><span>Tier</span><select id="tierFilter"><option value="all">All tiers</option><option value="Open">Open</option><option value="Pro">Pro</option></select></label></div></section>
-      <section class="panel scoreboard"><div class="score-header"><div><p class="eyebrow">Event results</p><h2 id="raceResultsTitle">Loading results…</h2><p id="raceResultsSummary" class="muted"></p></div></div><div class="table-wrap"><table><thead><tr><th>Rank</th><th>Athlete</th><th>Nation</th><th>Age group</th><th>Gender</th><th>Division</th><th>Format</th><th>Time</th></tr></thead><tbody id="raceResultsBody"></tbody></table></div></section>
-    </main><script src="app.js"></script>
+      <section id="datasetNotice" class="notice loading" aria-live="polite">Loading dataset…</section>
+
+      <section class="page-intro">
+        <p class="eyebrow">Event explorer</p>
+        <h1>See the field at each event.</h1>
+        <p>Choose an event, then filter its finishers by category, gender, age, or nation. Ranks recompute within the visible group.</p>
+      </section>
+
+      <section class="panel filters">
+        <div class="filter-head"><h2>Filters</h2><button id="clearFilters" class="text-btn" type="button">Clear all</button></div>
+        <div class="filter-grid">
+          <label><span>Event</span><select id="raceFilter" data-filter="race"></select></label>
+          <label><span>Competition</span><select id="compFilter" data-filter="comp"><option value="all">All competitions</option><option value="Individual">Individual</option><option value="Doubles">Doubles</option></select></label>
+          <label><span>Tier</span><select id="tierFilter" data-filter="tier"><option value="all">All tiers</option><option value="Open">Open</option><option value="Pro">Pro</option></select></label>
+          <label><span>Gender</span><select id="genderFilter" data-filter="gender"></select></label>
+          <label><span>Age group</span><select id="ageFilter" data-filter="age"></select></label>
+          <label><span>Nation</span><select id="nationalityFilter" data-filter="nationality"></select></label>
+        </div>
+      </section>
+
+      <section class="panel scoreboard">
+        <div class="score-head"><p class="eyebrow">Event results</p><h2 id="raceResultsTitle">Loading…</h2><p id="raceResultsSummary" class="muted"></p></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Athlete / Team</th><th>Category</th><th>Nation</th><th>Age</th><th>Gender</th><th class="hide-sm">Year</th><th>Time</th></tr></thead>
+            <tbody id="raceResultsBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Data via the independent <a href="https://github.com/vmatei2/pyrox-client" rel="noopener">pyrox-client</a> dataset. Not affiliated with HYROX.</p>
+    </footer>
+    <script src="app.js"></script>
   </body>
 </html>
