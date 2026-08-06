@@ -117,10 +117,9 @@ def main() -> None:
             dropped_div += 1
             continue
         comp_type, tier = DIVISION_MAP[division]
-        city, year = parse_race(row.get("race", ""))
+        _, year = parse_race(row.get("race", ""))
         cleaned.append({
             "race": clean_name(row.get("race", "")) or "Unknown event",
-            "city": city,
             "year": year or "",
             "compType": comp_type,
             "tier": tier,
@@ -130,19 +129,22 @@ def main() -> None:
             "firstName": first or "Unknown",
             "lastName": last or "Unknown",
             "seconds": seconds,
-            "sourceEventKey": row.get("sourceEventKey", ""),
-            "sourceResultId": row.get("sourceResultId", ""),
-            "sourceAthleteId": row.get("sourceAthleteId", ""),
         })
 
     print(f"Dropped {dropped_time:,} bad times, {dropped_name:,} placeholder names, {dropped_div:,} unknown divisions.")
+    if len(cleaned) < len(source) * 0.5:
+        raise SystemExit(
+            "Refusing to write: over half of the rows were dropped. The input is "
+            "probably an already-cleaned cache without a raw `division` field. "
+            "Re-run the pyrox import first, then clean."
+        )
     cleaned.sort(key=lambda r: (r["seconds"], r["race"]))
     print(f"Kept {len(cleaned):,} clean rows.")
 
     years = sorted({r["year"] for r in cleaned if r["year"]})
     now = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     metadata = {
-        "schemaVersion": 2,
+        "schemaVersion": 3,
         "source": "pyrox-client",
         "sourceLabel": "HYROX race results via pyrox-client (unofficial HYROX API)",
         "lastUpdated": now,

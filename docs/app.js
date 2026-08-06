@@ -100,8 +100,7 @@ function matches(row, includeRace = true) {
 function bestPerAthlete(rows) {
   const best = new Map();
   for (const row of rows) {
-    const key = row.sourceAthleteId
-      || `${row.firstName}|${row.lastName}|${row.nationality}|${row.compType}|${row.tier}`.toLowerCase();
+    const key = `${row.firstName}|${row.lastName}|${row.nationality}|${row.compType}|${row.tier}`.toLowerCase();
     const prev = best.get(key);
     if (!prev || row.seconds < prev.seconds) best.set(key, row);
   }
