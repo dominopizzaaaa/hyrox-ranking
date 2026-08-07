@@ -194,6 +194,29 @@ tbody tr:nth-child(3) td.rank { color: #cd7f32; }
 .event-name { font-weight: 700; font-size: 14px; }
 .event-meta { font-size: 12px; color: var(--muted); }
 
+/* ---------- clickable athlete + profile modal ---------- */
+.athlete-link { background: none; border: none; padding: 0; margin: 0; color: var(--accent-2); font: inherit; font-weight: 700; cursor: pointer; text-align: left; }
+.athlete-link:hover { text-decoration: underline; }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(4, 8, 20, 0.72); display: flex; align-items: flex-start; justify-content: center; padding: 5vh 16px; z-index: 50; overflow-y: auto; }
+.modal-overlay[hidden] { display: none; }
+.modal-card { position: relative; width: min(760px, 100%); background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); }
+.modal-close { position: absolute; top: 14px; right: 16px; background: none; border: none; color: var(--muted); font-size: 26px; line-height: 1; cursor: pointer; }
+.modal-close:hover { color: var(--text); }
+.modal-card h2 { margin: 4px 0 6px; font-size: 1.5rem; font-weight: 800; }
+
+.profile-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 18px 0 20px; }
+.pstat { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.pstat-n { font-size: 1.1rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.pstat-n.up { color: #4ade80; }
+.pstat-n.down { color: #ff8a6e; }
+.pstat-l { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
+
+.chg { font-weight: 700; font-variant-numeric: tabular-nums; }
+.chg.up { color: #4ade80; }
+.chg.down { color: #ff8a6e; }
+.pb-tag { display: inline-block; margin-left: 6px; font-size: 10px; font-weight: 800; letter-spacing: 0.5px; color: #ffd700; border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 6px; padding: 1px 5px; vertical-align: middle; }
+
 /* ---------- feature + policy grids ---------- */
 .feature-grid, .policy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
 .feature-card, .policy-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; }

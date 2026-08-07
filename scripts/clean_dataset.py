@@ -127,6 +127,25 @@ def parse_race(race: str) -> tuple[str, str | None]:
     return city, year
 
 
+SEASON_RE = re.compile(r"\bS(\d+)\b", re.IGNORECASE)
+
+
+def parse_season(row: dict[str, Any]) -> int:
+    """HYROX season number: prefer the raw field, else the 'S#' label prefix.
+
+    The pyrox source has no calendar date, so the season is the only reliable
+    chronological signal for ordering events newest-first in the UI.
+    """
+    raw = row.get("season")
+    try:
+        if raw is not None and int(raw) > 0:
+            return int(raw)
+    except (TypeError, ValueError):
+        pass
+    match = SEASON_RE.search(str(row.get("race", "")))
+    return int(match.group(1)) if match else 0
+
+
 def main() -> None:
     source = read_records()
     print(f"Loaded {len(source):,} raw rows.")
@@ -152,6 +171,7 @@ def main() -> None:
         cleaned.append({
             "race": clean_name(row.get("race", "")) or "Unknown event",
             "year": year or "",
+            "season": parse_season(row),
             "compType": comp_type,
             "tier": tier,
             "gender": str(row.get("gender", "")).lower() or "unknown",

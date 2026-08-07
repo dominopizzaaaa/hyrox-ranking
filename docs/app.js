@@ -90,6 +90,30 @@ function countryName(code) {
 }
 function genderName(g) { return GENDERS[clean(g).toLowerCase()] || clean(g); }
 
+/* Build a display name for a result row.
+ * Individuals show "First Last". Doubles/Relay rows pack every teammate into the
+ * firstName/lastName fields (comma-separated, sometimes glued with a stray
+ * "Member" token), so we split those apart and join partners with " & ". */
+function splitMembers(raw) {
+  return String(raw || '')
+    .split(',')
+    // Undo the "MemberX" gluing artefact: "Alliche MemberMartin" -> two names.
+    .flatMap((part) => part.split(/\s*Member(?=[A-ZÀ-Þ])/))
+    .map((p) => p.replace(/\bMember\b/gi, '').replace(/\s+/g, ' ').trim())
+    .filter(Boolean);
+}
+function displayName(row) {
+  if (row.compType === 'Doubles' || row.compType === 'Relay') {
+    const members = [...splitMembers(row.firstName), ...splitMembers(row.lastName)];
+    if (members.length) return members.join(' & ');
+  }
+  return `${row.firstName} ${row.lastName}`.trim();
+}
+/* Lowercased searchable text: full name plus split team members. */
+function searchName(row) {
+  return `${row.firstName} ${row.lastName} ${displayName(row)}`.toLowerCase();
+}
+
 function formatTime(total) {
   const s = Number(total);
   const h = Math.floor(s / 3600);
@@ -184,8 +208,8 @@ function renderHome() {
       const top = list.reduce((a, b) => (a.seconds <= b.seconds ? a : b));
       const li = document.createElement('li');
       li.innerHTML = `<span class="fl-label">${label}</span>`
-        + `<span class="fl-name">${top.firstName} ${top.lastName}</span>`
-        + `<span class="fl-meta">${top.race} · ${countryName(top.nationality)}</span>`
+        + `<span class="fl-name">${escapeHtml(displayName(top))}</span>`
+        + `<span class="fl-meta">${escapeHtml(top.race)} · ${countryName(top.nationality)}</span>`
         + `<span class="pill ${top.tier.toLowerCase()}">${formatTime(top.seconds)}</span>`;
       fastest.append(li);
     });
@@ -237,6 +261,10 @@ function buildFilters() {
 /* ---------- table rendering ---------- */
 function categoryLabel(row) { return `${row.compType} · ${row.tier}`; }
 
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
 function renderTable(body, rows, showRace) {
   body.replaceChildren();
   if (!rows.length) {
@@ -252,17 +280,18 @@ function renderTable(body, rows, showRace) {
   const frag = document.createDocumentFragment();
   rows.forEach((row, i) => {
     const tr = document.createElement('tr');
-    const contextCell = showRace ? `<td>${row.race}</td>` : `<td>${categoryLabel(row)}</td>`;
+    const contextCell = showRace ? `<td>${escapeHtml(row.race)}</td>` : `<td>${categoryLabel(row)}</td>`;
     tr.innerHTML = [
       `<td class="rank">${i + 1}</td>`,
-      `<td class="athlete">${row.firstName} ${row.lastName}</td>`,
+      `<td class="athlete"><button type="button" class="athlete-link">${escapeHtml(displayName(row))}</button></td>`,
       contextCell,
       `<td>${countryName(row.nationality)}</td>`,
-      `<td>${row.ageGroup}</td>`,
+      `<td>${escapeHtml(row.ageGroup)}</td>`,
       `<td>${genderName(row.gender)}</td>`,
-      showRace ? `<td>${categoryLabel(row)}</td>` : `<td class="hide-sm">${row.year || ''}</td>`,
+      showRace ? `<td>${categoryLabel(row)}</td>` : `<td class="hide-sm">${escapeHtml(row.year || '')}</td>`,
       `<td><span class="pill ${row.tier.toLowerCase()}">${formatTime(row.seconds)}</span></td>`,
     ].join('');
+    tr.querySelector('.athlete-link').addEventListener('click', () => openAthleteProfile(row));
     frag.append(tr);
   });
   body.append(frag);
@@ -309,15 +338,18 @@ function renderRaces() {
 }
 
 /* ---------- events list (newest first) ---------- */
-/* Each unique event with its year and finisher count, sorted newest -> oldest. */
+/* Each unique event with its HYROX season, year and finisher count.
+ * The pyrox source has no calendar date, so season (S1 2018 -> S9 2026) is the
+ * truest chronological signal; we sort by season desc, then year desc. */
 function eventSummaries() {
   const map = new Map();
   for (const r of state.rows) {
     let e = map.get(r.race);
-    if (!e) { e = { race: r.race, year: r.year || '', count: 0 }; map.set(r.race, e); }
+    if (!e) { e = { race: r.race, year: r.year || '', season: Number(r.season) || 0, count: 0 }; map.set(r.race, e); }
     e.count += 1;
   }
   return [...map.values()].sort((a, b) => {
+    if (b.season !== a.season) return b.season - a.season;
     const ya = Number(a.year) || 0;
     const yb = Number(b.year) || 0;
     if (yb !== ya) return yb - ya;
@@ -337,8 +369,9 @@ function renderEventList() {
     btn.className = 'event-item';
     if (e.race === state.filters.race) btn.classList.add('active');
     btn.dataset.race = e.race;
+    const tags = [e.season ? `Season ${e.season}` : '', e.year].filter(Boolean).join(' · ');
     btn.innerHTML = `<span class="event-name">${e.race}</span>`
-      + `<span class="event-meta">${e.year ? `${e.year} · ` : ''}${e.count.toLocaleString()} finishers</span>`;
+      + `<span class="event-meta">${tags ? `${tags} · ` : ''}${e.count.toLocaleString()} finishers</span>`;
     btn.addEventListener('click', () => selectEvent(e.race));
     li.append(btn);
     frag.append(li);
@@ -359,26 +392,130 @@ function selectEvent(race) {
 }
 
 /* ---------- global athlete search ---------- */
+const CJK_RE = /[\u3400-\u9fff\uf900-\ufaff\u3040-\u30ff\uac00-\ud7af]/;
 function renderSearch() {
   const body = $('#searchBody');
   const count = $('#searchCount');
   if (!body) return;
   const term = ($('#nameSearch')?.value || '').trim().toLowerCase();
-  if (term.length < 2) {
+  // A single CJK/Kana/Hangul character is a valid query; Latin needs two letters.
+  const minLen = CJK_RE.test(term) ? 1 : 2;
+  if ([...term].length < minLen) {
     count.textContent = '';
     renderTable(body, [], true);
     const tr = body.querySelector('td.empty');
-    if (tr) tr.textContent = 'Type at least two letters to search.';
+    if (tr) tr.textContent = 'Type a name to search (one character for CJK, two letters otherwise).';
     return;
   }
   const matched = state.rows
-    .filter((r) => `${r.firstName} ${r.lastName}`.toLowerCase().includes(term))
+    .filter((r) => searchName(r).includes(term))
     .sort((a, b) => a.seconds - b.seconds);
   const capped = matched.slice(0, 200);
   count.textContent = matched.length
     ? `${matched.length.toLocaleString()} matching finishes${matched.length > capped.length ? ` · showing fastest ${capped.length}` : ''}`
     : 'No athletes match that name.';
   renderTable(body, capped, true);
+}
+
+/* ---------- athlete profile ---------- */
+/* Identity key for grouping one athlete's results across events. The source has
+ * no athlete id, so we key on name + gender (+ competition) and accept that rare
+ * namesakes may merge. Team rows keep their combined name so partners stay together. */
+function athleteKey(row) {
+  return `${row.firstName}|${row.lastName}|${row.gender}|${row.compType}`.toLowerCase();
+}
+
+function ensureProfileModal() {
+  let modal = $('#athleteModal');
+  if (modal) return modal;
+  modal = document.createElement('div');
+  modal.id = 'athleteModal';
+  modal.className = 'modal-overlay';
+  modal.hidden = true;
+  modal.innerHTML = `
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="athleteModalName">
+      <button type="button" class="modal-close" aria-label="Close">×</button>
+      <p class="eyebrow">Athlete profile</p>
+      <h2 id="athleteModalName"></h2>
+      <p id="athleteModalMeta" class="muted"></p>
+      <div id="athleteModalStats" class="profile-stats"></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Event</th><th>Season</th><th>Category</th><th>Time</th><th>Change</th></tr></thead>
+          <tbody id="athleteModalBody"></tbody>
+        </table>
+      </div>
+    </div>`;
+  document.body.append(modal);
+  const close = () => { modal.hidden = true; };
+  modal.querySelector('.modal-close').addEventListener('click', close);
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  return modal;
+}
+
+function openAthleteProfile(row) {
+  const modal = ensureProfileModal();
+  const key = athleteKey(row);
+  // Chronological history: season then year ascending, so trends read oldest -> newest.
+  const history = state.rows
+    .filter((r) => athleteKey(r) === key)
+    .sort((a, b) => (Number(a.season) || 0) - (Number(b.season) || 0)
+      || (Number(a.year) || 0) - (Number(b.year) || 0)
+      || b.seconds - a.seconds);
+
+  $('#athleteModalName').textContent = displayName(row);
+  const nations = countryName(row.nationality);
+  $('#athleteModalMeta').textContent = [
+    `${row.compType} · ${row.tier}`,
+    genderName(row.gender),
+    nations !== 'Unknown' ? nations : null,
+    `${history.length} race${history.length === 1 ? '' : 's'}`,
+  ].filter(Boolean).join(' · ');
+
+  const times = history.map((r) => r.seconds);
+  const best = Math.min(...times);
+  const worst = Math.max(...times);
+  const first = times[0];
+  const last = times[times.length - 1];
+  const delta = last - first; // negative = faster (improved)
+  const stats = $('#athleteModalStats');
+  const trend = history.length < 2 ? 'Single race'
+    : delta < 0 ? `Improved ${formatTime(-delta)} overall`
+    : delta > 0 ? `Slower ${formatTime(delta)} overall`
+    : 'No overall change';
+  stats.innerHTML = [
+    `<div class="pstat"><span class="pstat-n">${formatTime(best)}</span><span class="pstat-l">Personal best</span></div>`,
+    `<div class="pstat"><span class="pstat-n">${formatTime(worst)}</span><span class="pstat-l">Slowest</span></div>`,
+    `<div class="pstat"><span class="pstat-n ${delta < 0 ? 'up' : delta > 0 ? 'down' : ''}">${trend}</span><span class="pstat-l">First → latest</span></div>`,
+  ].join('');
+
+  const body = $('#athleteModalBody');
+  body.replaceChildren();
+  const frag = document.createDocumentFragment();
+  history.forEach((r, i) => {
+    const prev = i > 0 ? history[i - 1].seconds : null;
+    let change = '<span class="muted">—</span>';
+    if (prev != null) {
+      const d = r.seconds - prev; // negative = faster than previous
+      change = d === 0 ? '<span class="muted">±0</span>'
+        : d < 0 ? `<span class="chg up">▼ ${formatTime(-d)}</span>`
+        : `<span class="chg down">▲ ${formatTime(d)}</span>`;
+    }
+    const isBest = r.seconds === best;
+    const tr = document.createElement('tr');
+    tr.innerHTML = [
+      `<td class="rank">${i + 1}</td>`,
+      `<td>${escapeHtml(r.race)}</td>`,
+      `<td>${r.season ? `S${r.season}` : ''} ${escapeHtml(r.year || '')}</td>`,
+      `<td>${r.compType} · ${r.tier}</td>`,
+      `<td><span class="pill ${r.tier.toLowerCase()}">${formatTime(r.seconds)}</span>${isBest ? ' <span class="pb-tag">PB</span>' : ''}</td>`,
+      `<td>${change}</td>`,
+    ].join('');
+    frag.append(tr);
+  });
+  body.append(frag);
+  modal.hidden = false;
 }
 
 let searchTimer = null;
