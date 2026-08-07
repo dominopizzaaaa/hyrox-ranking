@@ -168,8 +168,9 @@ function renderNotice() {
   const date = state.meta.lastUpdated
     ? new Date(state.meta.lastUpdated).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
     : 'n/a';
+  const events = new Set(state.rows.map((r) => r.race)).size;
   el.className = 'notice ready';
-  el.textContent = `${state.meta.sourceLabel} · Updated ${date} · ${state.meta.coverage}`;
+  el.textContent = `Singapore rankings · Updated ${date} · ${state.rows.length.toLocaleString()} finishes with a Singaporean across ${events.toLocaleString()} events`;
 }
 
 /* ---------- home dashboard ---------- */
@@ -177,14 +178,14 @@ function renderHome() {
   const grid = $('#statGrid');
   if (!grid || !state.meta) return;
   const rows = state.rows;
-  const events = state.meta.totalEvents || new Set(rows.map((r) => r.race)).size;
-  const countries = new Set();
-  rows.forEach((r) => r.nationality.split(',').forEach((c) => { if (c.trim() && c.trim() !== 'Unknown') countries.add(c.trim()); }));
+  const events = new Set(rows.map((r) => r.race)).size;
+  const athletes = new Set(rows.map((r) => athleteKey(r))).size;
+  const years = [...new Set(rows.map((r) => r.year).filter(Boolean))].sort();
   const stats = [
-    { n: rows.length.toLocaleString(), l: 'Verified finishes' },
-    { n: events.toLocaleString(), l: 'Events worldwide' },
-    { n: countries.size.toLocaleString(), l: 'Nations represented' },
-    { n: (state.meta.years && state.meta.years.length) ? `${state.meta.years[0]}–${state.meta.years[state.meta.years.length - 1]}` : '—', l: 'Seasons covered' },
+    { n: rows.length.toLocaleString(), l: 'Singaporean finishes' },
+    { n: events.toLocaleString(), l: 'Events contested' },
+    { n: athletes.toLocaleString(), l: 'Athletes / teams' },
+    { n: years.length ? `${years[0]}–${years[years.length - 1]}` : '—', l: 'Seasons covered' },
   ];
   grid.replaceChildren();
   stats.forEach((s) => {
@@ -231,9 +232,6 @@ function buildFilters() {
   buildSelect($('#raceFilter'), uniqueSorted('race'), 'events');
   buildSelect($('#genderFilter'), uniqueSorted('gender'), 'genders', genderName);
   buildSelect($('#ageFilter'), uniqueSorted('ageGroup'), 'age groups');
-  buildSelect($('#nationalityFilter'),
-    uniqueSorted('nationality').filter((v) => v !== 'Unknown'),
-    'nations', countryName);
 
   const comp = $('#compFilter');
   if (comp) comp.value = COMP_TYPES.includes(state.filters.comp) ? state.filters.comp : 'all';
@@ -569,7 +567,10 @@ async function init() {
       fetch(METADATA_URL, { cache: 'no-cache' }),
     ]);
     if (!dataRes.ok) throw new Error('Dataset failed to load.');
-    state.rows = await decompress(dataRes);
+    const allRows = await decompress(dataRes);
+    // This site is scoped to Singapore only: keep any finish where a Singaporean
+    // took part (individuals coded 'SIN', or doubles/relay teams with a SIN member).
+    state.rows = allRows.filter((r) => String(r.nationality).split(',').some((c) => c.trim() === 'SIN'));
     state.meta = metaRes.ok ? await metaRes.json() : { sourceLabel: 'Cached results', coverage: `${state.rows.length} rows` };
     readQuery();
     renderNotice();
