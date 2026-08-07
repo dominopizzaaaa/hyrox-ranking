@@ -37,6 +37,30 @@ DIVISION_MAP = {
     "adaptive": ("Adaptive", "Open"),
 }
 
+# Recognised nationality codes (IOC / HYROX). Kept in sync with COUNTRIES in
+# docs/app.js. Any nationality token outside this set is a data artefact.
+KNOWN_CODES = {
+    "GBR", "ENG", "SCO", "WAL", "WLS", "NIR", "GER", "USA", "NED", "FRA", "AUS", "ESP", "IRL",
+    "CHN", "MEX", "ITA", "SIN", "SGP", "NZL", "RSA", "THA", "IND", "CAN", "POL", "AUT", "SWE",
+    "HKG", "BEL", "KOR", "MAS", "SUI", "DEN", "POR", "PHI", "ARG", "INA", "COL", "CZE", "NOR",
+    "BRA", "TPE", "HUN", "JPN", "VEN", "UAE", "LTU", "ROU", "GRE", "MLT", "LUX", "MAR", "FIN",
+    "CHI", "UKR", "CRO", "SLO", "TUR", "RUS", "SVK", "PUR", "EGY", "GUA", "ISL", "EST", "LAT",
+    "SRB", "BUL", "CYP", "ISR", "QAT", "KSA", "KUW", "LIB", "LBN", "JOR", "VIE", "MGL", "KAZ",
+    "PAK", "SRI", "BAN", "ECU", "PER", "URU", "PAR", "BOL", "CRC", "PAN", "DOM", "JAM", "TRI",
+    "TTO", "BAH", "NGR", "KEN", "GHA", "UGA", "ZIM", "BOT", "NAM", "MRI", "TUN", "ALG", "OMA",
+    "BRN", "MAC", "BRU", "MYA", "CAM", "NEP", "GEO", "ARM", "AZE", "ALB", "MKD", "BIH", "MNE",
+    "KOS", "MDA", "BLR", "AND", "MON", "LIE", "SMR", "FRO", "GIB", "ESA", "IRI", "SAM", "CUB",
+    "HON", "PLE", "TGA", "SYR", "JEY", "HAI", "IMN", "GGY", "COK", "CMR", "IRQ", "CIV", "SUR",
+    "FIJ", "GUM", "NCA", "CPV", "COD", "PYF", "AFG", "REU", "CUW", "MDV", "CAY", "BAR", "MAD",
+    "NCL", "SUD", "ANG", "IOT", "IVB", "PNG", "NIU", "GUY", "ZAM", "LAO", "ARU", "GLP", "ETH",
+    "BER", "SWZ", "KGZ", "LES", "YEM", "GRN", "BLM", "MTQ", "DMA", "UMI", "LCA", "ASA", "BEN",
+    "GUF", "TAN", "SOM", "ALA", "GUI", "LBR", "TOG", "MAW", "SXM", "BDI", "SLE", "BIZ", "LBA",
+    "ATA", "MOZ", "GAB", "VAT", "ISV", "CGO", "MTN", "ERI", "PRK", "MAF", "NIG", "SSD", "SKN",
+    "RWA", "ANT", "BUR", "GRL", "BHU", "TKM", "GBS", "SEY", "TKL", "TCA", "GAM", "BES", "CAF",
+    "VIN", "MLI", "COM", "SOL", "CHA", "TJK", "SGS", "BVT", "MYT", "TLS", "NFK", "NRU", "DJI",
+    "SPM", "PLW", "MNP", "TUV", "FLK", "KIR", "STP", "UZB", "MHL", "MSR", "HYROX", "HRX", "SHN",
+}
+
 
 def read_records() -> list[dict[str, Any]]:
     with gzip.open(DATA_FILE, "rt", encoding="utf-8") as source:
@@ -72,12 +96,19 @@ def dedupe_nationality(value: str) -> str:
     parts = [p.strip() for p in (value or "").split(",") if p.strip()]
     if not parts:
         return "Unknown"
+    # Tokens outside the recognised code set are source-data artefacts (stray
+    # first names, literal "Comma"/"Double Quote", '(NED' fragments from CSV
+    # splitting). Map them to Unknown so filters and search stay clean.
     seen: list[str] = []
     for p in parts:
-        if p not in seen:
-            seen.append(p)
+        code = p if p in KNOWN_CODES else "Unknown"
+        if code not in seen:
+            seen.append(code)
+    # If a real country is present, drop the Unknown placeholder.
+    real = [c for c in seen if c != "Unknown"]
+    result = real or ["Unknown"]
     # A doubles team from one country collapses to a single code.
-    return ", ".join(seen)
+    return ", ".join(result)
 
 
 YEAR_RE = re.compile(r"(19|20)\d{2}")

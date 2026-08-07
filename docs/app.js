@@ -33,8 +33,38 @@ const COUNTRIES = {
   ARM: 'Armenia', AZE: 'Azerbaijan', ALB: 'Albania', MKD: 'North Macedonia', BIH: 'Bosnia & Herzegovina',
   MNE: 'Montenegro', KOS: 'Kosovo', MDA: 'Moldova', BLR: 'Belarus', AND: 'Andorra', MON: 'Monaco',
   LIE: 'Liechtenstein', SMR: 'San Marino', FRO: 'Faroe Islands', GIB: 'Gibraltar',
-  HYROX: 'HYROX', SHN: 'China', Unknown: 'Unknown'
+  // Additional IOC / HYROX codes seen in the dataset.
+  LBN: 'Lebanon', ESA: 'El Salvador', IRI: 'Iran', SAM: 'Samoa', CUB: 'Cuba', WLS: 'Wales',
+  HON: 'Honduras', PLE: 'Palestine', TGA: 'Tonga', SYR: 'Syria', JEY: 'Jersey', HAI: 'Haiti',
+  IMN: 'Isle of Man', GGY: 'Guernsey', COK: 'Cook Islands', CMR: 'Cameroon', TTO: 'Trinidad & Tobago',
+  IRQ: 'Iraq', CIV: "Côte d'Ivoire", SUR: 'Suriname', FIJ: 'Fiji', GUM: 'Guam', NCA: 'Nicaragua',
+  CPV: 'Cape Verde', COD: 'DR Congo', PYF: 'French Polynesia', AFG: 'Afghanistan', REU: 'Réunion',
+  CUW: 'Curaçao', MDV: 'Maldives', CAY: 'Cayman Islands', BAR: 'Barbados', MAD: 'Madagascar',
+  NCL: 'New Caledonia', SUD: 'Sudan', ANG: 'Angola', IOT: 'British Indian Ocean Territory',
+  IVB: 'British Virgin Islands', PNG: 'Papua New Guinea', NIU: 'Niue', GUY: 'Guyana', ZAM: 'Zambia',
+  LAO: 'Laos', ARU: 'Aruba', GLP: 'Guadeloupe', ETH: 'Ethiopia', BER: 'Bermuda', SWZ: 'Eswatini',
+  KGZ: 'Kyrgyzstan', LES: 'Lesotho', YEM: 'Yemen', GRN: 'Grenada', BLM: 'Saint Barthélemy',
+  MTQ: 'Martinique', DMA: 'Dominica', UMI: 'US Minor Outlying Islands', LCA: 'Saint Lucia',
+  ASA: 'American Samoa', BEN: 'Benin', GUF: 'French Guiana', TAN: 'Tanzania', SOM: 'Somalia',
+  ALA: 'Åland Islands', GUI: 'Guinea', LBR: 'Liberia', TOG: 'Togo', MAW: 'Malawi', SXM: 'Sint Maarten',
+  BDI: 'Burundi', SLE: 'Sierra Leone', BIZ: 'Belize', LBA: 'Libya', ATA: 'Antarctica', MOZ: 'Mozambique',
+  GAB: 'Gabon', VAT: 'Vatican City', ISV: 'US Virgin Islands', CGO: 'Congo', MTN: 'Mauritania',
+  ERI: 'Eritrea', PRK: 'North Korea', MAF: 'Saint Martin', NIG: 'Niger', SSD: 'South Sudan',
+  SKN: 'Saint Kitts & Nevis', RWA: 'Rwanda', ANT: 'Antigua & Barbuda', BUR: 'Burkina Faso',
+  GRL: 'Greenland', BHU: 'Bhutan', TKM: 'Turkmenistan', GBS: 'Guinea-Bissau', SEY: 'Seychelles',
+  TKL: 'Tokelau', TCA: 'Turks & Caicos', GAM: 'Gambia', BES: 'Bonaire', CAF: 'Central African Republic',
+  VIN: 'Saint Vincent & the Grenadines', MLI: 'Mali', COM: 'Comoros', SOL: 'Solomon Islands',
+  CHA: 'Chad', TJK: 'Tajikistan', SGS: 'South Georgia', BVT: 'Bouvet Island', MYT: 'Mayotte',
+  TLS: 'Timor-Leste', NFK: 'Norfolk Island', NRU: 'Nauru', DJI: 'Djibouti', SPM: 'Saint Pierre & Miquelon',
+  PLW: 'Palau', MNP: 'Northern Mariana Islands', TUV: 'Tuvalu', FLK: 'Falkland Islands', KIR: 'Kiribati',
+  STP: 'São Tomé & Príncipe', SGP: 'Singapore', UZB: 'Uzbekistan', MHL: 'Marshall Islands', MSR: 'Montserrat',
+  HYROX: 'HYROX', HRX: 'HYROX', SHN: 'China', Unknown: 'Unknown'
 };
+
+/* Every recognised nationality code. Tokens outside this set (stray first names,
+ * literal "Comma"/"Double Quote", '(NED' fragments) are source-data artefacts and
+ * are treated as Unknown when displaying. */
+const KNOWN_CODES = new Set(Object.keys(COUNTRIES));
 
 const GENDERS = { male: 'Men', female: 'Women', mixed: 'Mixed' };
 const COMP_TYPES = ['Individual', 'Doubles', 'Relay', 'Adaptive'];
@@ -278,6 +308,107 @@ function renderRaces() {
   renderTable($('#raceResultsBody'), rows, false);
 }
 
+/* ---------- events list (newest first) ---------- */
+/* Each unique event with its year and finisher count, sorted newest -> oldest. */
+function eventSummaries() {
+  const map = new Map();
+  for (const r of state.rows) {
+    let e = map.get(r.race);
+    if (!e) { e = { race: r.race, year: r.year || '', count: 0 }; map.set(r.race, e); }
+    e.count += 1;
+  }
+  return [...map.values()].sort((a, b) => {
+    const ya = Number(a.year) || 0;
+    const yb = Number(b.year) || 0;
+    if (yb !== ya) return yb - ya;
+    return a.race.localeCompare(b.race, undefined, { numeric: true });
+  });
+}
+
+function renderEventList() {
+  const list = $('#eventList');
+  if (!list) return;
+  const events = eventSummaries();
+  const frag = document.createDocumentFragment();
+  events.forEach((e) => {
+    const li = document.createElement('li');
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'event-item';
+    if (e.race === state.filters.race) btn.classList.add('active');
+    btn.dataset.race = e.race;
+    btn.innerHTML = `<span class="event-name">${e.race}</span>`
+      + `<span class="event-meta">${e.year ? `${e.year} · ` : ''}${e.count.toLocaleString()} finishers</span>`;
+    btn.addEventListener('click', () => selectEvent(e.race));
+    li.append(btn);
+    frag.append(li);
+  });
+  list.replaceChildren(frag);
+}
+
+function selectEvent(race) {
+  state.filters.race = race;
+  const raceFilter = $('#raceFilter');
+  if (raceFilter) raceFilter.value = race;
+  document.querySelectorAll('#eventList .event-item').forEach((b) => {
+    b.classList.toggle('active', b.dataset.race === race);
+  });
+  writeQuery();
+  renderRaces();
+  $('#raceResultsTitle')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ---------- global athlete search ---------- */
+function renderSearch() {
+  const body = $('#searchBody');
+  const count = $('#searchCount');
+  if (!body) return;
+  const term = ($('#nameSearch')?.value || '').trim().toLowerCase();
+  if (term.length < 2) {
+    count.textContent = '';
+    renderTable(body, [], true);
+    const tr = body.querySelector('td.empty');
+    if (tr) tr.textContent = 'Type at least two letters to search.';
+    return;
+  }
+  const matched = state.rows
+    .filter((r) => `${r.firstName} ${r.lastName}`.toLowerCase().includes(term))
+    .sort((a, b) => a.seconds - b.seconds);
+  const capped = matched.slice(0, 200);
+  count.textContent = matched.length
+    ? `${matched.length.toLocaleString()} matching finishes${matched.length > capped.length ? ` · showing fastest ${capped.length}` : ''}`
+    : 'No athletes match that name.';
+  renderTable(body, capped, true);
+}
+
+let searchTimer = null;
+function wireEventsPage() {
+  renderEventList();
+
+  const tabBrowse = $('#tabBrowse');
+  const tabSearch = $('#tabSearch');
+  const eventsPanel = $('#eventsPanel');
+  const searchPanel = $('#searchPanel');
+  const setTab = (mode) => {
+    const search = mode === 'search';
+    tabSearch.classList.toggle('active', search);
+    tabBrowse.classList.toggle('active', !search);
+    tabSearch.setAttribute('aria-selected', String(search));
+    tabBrowse.setAttribute('aria-selected', String(!search));
+    searchPanel.hidden = !search;
+    eventsPanel.hidden = search;
+    if (search) { $('#nameSearch')?.focus(); renderSearch(); }
+  };
+  tabBrowse?.addEventListener('click', () => setTab('browse'));
+  tabSearch?.addEventListener('click', () => setTab('search'));
+
+  const nameSearch = $('#nameSearch');
+  nameSearch?.addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(renderSearch, 150);
+  });
+}
+
 function render() {
   if (page === 'home') renderHome();
   if (page === 'leaderboard') renderLeaderboard();
@@ -308,6 +439,7 @@ async function init() {
     if (page === 'policy') return;
     if (page === 'home') { renderHome(); return; }
     buildFilters();
+    if (page === 'races') wireEventsPage();
     render();
   } catch (err) {
     const notice = $('#datasetNotice');

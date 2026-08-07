@@ -25,7 +25,28 @@
       <section class="page-intro">
         <p class="eyebrow">Event explorer</p>
         <h1>See the field at each event.</h1>
-        <p>Choose an event, then filter its finishers by category, gender, age, or nation. Ranks recompute within the visible group.</p>
+        <p>Search any athlete across every event, browse events from newest to oldest, or filter a single event's finishers by category, gender, age, or nation.</p>
+      </section>
+
+      <div class="tabs" role="tablist" aria-label="Event views">
+        <button id="tabBrowse" class="tab active" role="tab" type="button" aria-selected="true">Recent events</button>
+        <button id="tabSearch" class="tab" role="tab" type="button" aria-selected="false">Search athletes</button>
+      </div>
+
+      <section id="searchPanel" class="panel search-panel" hidden>
+        <div class="filter-head"><h2>Search athletes</h2><span class="muted" id="searchCount"></span></div>
+        <label class="search-field"><span>Name</span><input id="nameSearch" type="search" placeholder="Search any athlete or team across all events…" autocomplete="off" /></label>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Athlete / Team</th><th>Event</th><th>Nation</th><th>Age</th><th>Gender</th><th>Category</th><th>Time</th></tr></thead>
+            <tbody id="searchBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="eventsPanel" class="panel events-panel">
+        <div class="filter-head"><h2>Events — newest first</h2><span class="muted">Tap an event to load its results below.</span></div>
+        <ul id="eventList" class="event-list"></ul>
       </section>
 
       <section class="panel filters">

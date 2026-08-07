@@ -163,6 +163,37 @@ tbody tr:nth-child(3) td.rank { color: #cd7f32; }
 .pill.pro { background: rgba(255, 92, 56, 0.16); color: #ff8a6e; border: 1px solid rgba(255, 92, 56, 0.4); }
 .pill.open { background: rgba(75, 159, 255, 0.16); color: #86bdff; border: 1px solid rgba(75, 159, 255, 0.4); }
 
+/* ---------- tabs ---------- */
+.tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+.tab {
+  appearance: none; background: var(--panel-2); border: 1px solid var(--border); color: var(--muted);
+  padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 700; cursor: pointer;
+}
+.tab:hover { color: var(--text); }
+.tab.active { background: var(--accent); border-color: var(--accent); color: #06122b; }
+
+/* ---------- athlete search ---------- */
+.search-panel { margin-bottom: 20px; }
+.search-field { display: flex; flex-direction: column; gap: 6px; margin: 4px 0 18px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); }
+.search-field input {
+  background: var(--bg-soft); border: 1px solid var(--border); color: var(--text);
+  padding: 12px 15px; border-radius: 10px; font-size: 15px; font-weight: 500;
+}
+.search-field input:focus { outline: none; border-color: var(--accent); }
+
+/* ---------- event list ---------- */
+.events-panel { margin-bottom: 20px; }
+.event-list { list-style: none; margin: 4px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; max-height: 460px; overflow-y: auto; }
+.event-item {
+  width: 100%; text-align: left; cursor: pointer; display: flex; flex-direction: column; gap: 4px;
+  background: var(--bg-soft); border: 1px solid var(--border); color: var(--text);
+  padding: 12px 14px; border-radius: 12px;
+}
+.event-item:hover { border-color: var(--accent); }
+.event-item.active { border-color: var(--accent); background: rgba(75, 159, 255, 0.1); }
+.event-name { font-weight: 700; font-size: 14px; }
+.event-meta { font-size: 12px; color: var(--muted); }
+
 /* ---------- feature + policy grids ---------- */
 .feature-grid, .policy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
 .feature-card, .policy-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; }
